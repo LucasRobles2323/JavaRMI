@@ -2,6 +2,8 @@ package common;
 
 import java.io.Serializable;
 
+import common.InterfazDeServer;
+
 public class Persona implements Serializable {
 	
 	public static final long serialVersionUID = 1L;

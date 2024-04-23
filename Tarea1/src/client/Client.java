@@ -16,7 +16,7 @@ public class Client {
 	
 	public void startClient() throws RemoteException, NotBoundException {
 		Registry registry = LocateRegistry.getRegistry("localhost", 4344);
-		server = (InterfazDeServer) registry.lookup("ServerDePersonas");
+		server = (InterfazDeServer) registry.lookup("serverDePersonas");
 	}
 	
 	public ArrayList<Persona> getPersonas() throws RemoteException {

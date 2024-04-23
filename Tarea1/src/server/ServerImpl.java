@@ -15,7 +15,7 @@ public class ServerImpl implements InterfazDeServer {
 	}
 	
 	private Persona persona1 = new Persona("Fernanda", 38);
-	private Persona persona2 = new Persona("FPersona", 30);
+	private Persona persona2 = new Persona("Fernando", 30);
 	
 	private ArrayList<Persona> BD_personas = new ArrayList<>();
 	
