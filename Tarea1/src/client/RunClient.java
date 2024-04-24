@@ -13,12 +13,13 @@ import common.Persona;
 public class RunClient {
 	public static void main(String[] args) throws  NotBoundException, IOException {
 		Client cliente = new Client();
-		auxiliarClient aux = new auxiliarClient();
 		
 		cliente.startClient();
 		
+		auxiliarClient aux = new auxiliarClient(cliente.getPersonas());
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String nombre = br.readLine();
+		String basura;
 		
 		boolean salir = false;
 		int opcion = 3;
@@ -36,11 +37,11 @@ public class RunClient {
 			switch (opcion) {
             case 1:
             	// 1. Mostrar Personas Registradas
-                System.out.println("Aun no implementada");
+            	aux.displayClients(  );
                 break;
             case 2:
-            	// 2. Mostrar Personas Registradas
-            	System.out.println("Aun no implementada");
+            	// 2. Registrar Nueva Persona
+            	aux.addPerson();
                 break;
             case 3:
             	// 3. Salir
@@ -50,6 +51,8 @@ public class RunClient {
                 System.out.println("Opción no válida");
 			}
 			
+			basura = br.readLine();
+			// Thread.sleep(2000); 2 segundos
 			aux.clearConsole();
 		}
 		
