@@ -9,34 +9,36 @@ import common.Persona;
 
 public class auxiliarClient {
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	private ArrayList<Persona> BD_personas;
 	
-	public auxiliarClient(ArrayList<Persona> BD) {
-		this.BD_personas = BD;
-	}
+	public auxiliarClient() {}
 	
 	public static void clearConsole() {
-        System.out.println("\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	}
 	
-	public void displayClients() {
-		for (int i = 0; i < this.BD_personas.size(); i++) {
-            Persona persona = this.BD_personas.get(i);
-            System.out.println("- " + persona.getNombre() + " tiene " + persona.getEdad() + " años");
+	public void displayClients(ArrayList<Persona> BD) {
+		System.out.println("\n\n");
+		System.out.println("Personas Registradas:");
+		for (int i = 0; i < BD.size(); i++) {
+            Persona persona = BD.get(i);
+            System.out.println("	- " + persona.getNombre() + " tiene " + persona.getEdad() + " años");
         }
 	}
 	
-	public void addPerson() throws IOException {
-		this.BD_personas.add( new Persona(getName(), getAge()) );
+	public Persona addPerson() throws IOException {
+		System.out.println("\n\n");
+		System.out.println("Nueva Persona:");
+		Persona person = new Persona(getName(), getAge());
+		return person;
 	}
 	
 	public String getName() throws IOException {
-        System.out.print("Escriba el nombre: ");
+        System.out.print(" - Escriba el nombre: ");
         return br.readLine();
 	}
 	
 	public int getAge() throws IOException {
-        System.out.print("Escriba la edad: ");
+        System.out.print(" - Escriba la edad: ");
         return Integer.parseInt(br.readLine());
 	}
 }

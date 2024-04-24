@@ -11,15 +11,14 @@ import common.InterfazDeServer;
 import common.Persona;
 
 public class RunClient {
-	public static void main(String[] args) throws  NotBoundException, IOException {
+	public static void main(String[] args) throws  NotBoundException, IOException, InterruptedException {
 		Client cliente = new Client();
 		
 		cliente.startClient();
 		
-		auxiliarClient aux = new auxiliarClient(cliente.getPersonas());
+		auxiliarClient aux = new auxiliarClient();
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String basura;
 		
 		boolean salir = false;
 		int opcion = 3;
@@ -37,11 +36,11 @@ public class RunClient {
 			switch (opcion) {
             case 1:
             	// 1. Mostrar Personas Registradas
-            	aux.displayClients(  );
+            	aux.displayClients( cliente.getPersonas() );
                 break;
             case 2:
             	// 2. Registrar Nueva Persona
-            	aux.addPerson();
+            	cliente.setPersona( aux.addPerson() );
                 break;
             case 3:
             	// 3. Salir
@@ -51,8 +50,7 @@ public class RunClient {
                 System.out.println("Opción no válida");
 			}
 			
-			basura = br.readLine();
-			// Thread.sleep(2000); 2 segundos
+			Thread.sleep(3000); //2 segundos
 			aux.clearConsole();
 		}
 		

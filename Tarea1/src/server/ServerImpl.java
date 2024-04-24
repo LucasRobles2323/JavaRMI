@@ -30,7 +30,7 @@ public class ServerImpl implements InterfazDeServer {
 	}
 	
 	@Override
-	public void Persona(String nombre, int edad) throws RemoteException{
-		
+	public void setPersona(Persona person) throws RemoteException{
+		BD_personas.add( person );
 	} 
 }

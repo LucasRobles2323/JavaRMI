@@ -22,5 +22,9 @@ public class Client {
 	public ArrayList<Persona> getPersonas() throws RemoteException {
 		return server.getPersona();
 	}
+	
+	public void setPersona(Persona person) throws RemoteException, NotBoundException {
+		server.setPersona(person);
+	}
 
 }
