@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import common.Persona;
+import common.User;
 
 public class auxiliarClient {
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,19 +16,19 @@ public class auxiliarClient {
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	}
 	
-	public void displayClients(ArrayList<Persona> BD) {
+	public void displayClients(ArrayList<User> BD) {
 		System.out.println("\n\n");
 		System.out.println("Personas Registradas:");
 		for (int i = 0; i < BD.size(); i++) {
-            Persona persona = BD.get(i);
+            User persona = BD.get(i);
             System.out.println("	- " + persona.getNombre() + " tiene " + persona.getEdad() + " años");
         }
 	}
 	
-	public Persona addPerson() throws IOException {
+	public User addPerson() throws IOException {
 		System.out.println("\n\n");
 		System.out.println("Nueva Persona:");
-		Persona person = new Persona(getName(), getAge());
+		User person = new User(getName(), getAge());
 		return person;
 	}
 	

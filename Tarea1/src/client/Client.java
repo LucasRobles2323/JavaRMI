@@ -7,7 +7,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
 import common.InterfazDeServer;
-import common.Persona;
+import common.User;
 
 public class Client {
 	private InterfazDeServer server;
@@ -19,12 +19,12 @@ public class Client {
 		server = (InterfazDeServer) registry.lookup("serverDePersonas");
 	}
 	
-	public ArrayList<Persona> getPersonas() throws RemoteException {
-		return server.getPersona();
+	public ArrayList<User> getPeopleServer() throws RemoteException {
+		return server.getPeople();
 	}
 	
-	public void setPersona(Persona person) throws RemoteException, NotBoundException {
-		server.setPersona(person);
+	public void setPersonServer(User person) throws RemoteException, NotBoundException {
+		server.setPerson(person);
 	}
 
 }

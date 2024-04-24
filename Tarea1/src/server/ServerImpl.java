@@ -5,32 +5,32 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import common.InterfazDeServer;
-import common.Persona;
+import common.User;
 
 public class ServerImpl implements InterfazDeServer {
 	
 	public ServerImpl() throws RemoteException {
-		crearBD();
+		instanceBD();
 		UnicastRemoteObject.exportObject(this, 0);
 	}
 	
-	private Persona persona1 = new Persona("Fernanda", 38);
-	private Persona persona2 = new Persona("Fernando", 30);
+	private User user1 = new User("Julio", 24);
+	private User user2 = new User("Jazmin", 8);
 	
-	private ArrayList<Persona> BD_personas = new ArrayList<>();
+	private ArrayList<User> people = new ArrayList<>();
 	
-	public void crearBD() {
-		BD_personas.add(persona1);
-		BD_personas.add(persona2);
+	public void instanceBD() {
+		people.add(user1);
+		people.add(user2);
 	}
 	
 	@Override
-	public ArrayList<Persona> getPersona() throws RemoteException {
-		return BD_personas;
+	public ArrayList<User> getPeople() throws RemoteException {
+		return people;
 	}
 	
 	@Override
-	public void setPersona(Persona person) throws RemoteException{
-		BD_personas.add( person );
+	public void setPerson(User person) throws RemoteException{
+		people.add( person );
 	} 
 }
