@@ -30,7 +30,8 @@ public class RunClient {
 				Thread.sleep(2000); //2 segundos
 				aux.clearConsole();
 			}
-			
+
+			System.out.println("(: Bienvenido a la aerolinea! :)");
 			System.out.println("1. Mostrar Personas Registradas");
 			System.out.println("2. Registrar Nueva Persona");
 			System.out.println("3. Salir");
