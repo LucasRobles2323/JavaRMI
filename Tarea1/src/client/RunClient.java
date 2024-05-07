@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
 
+import common.Airplane;
 import common.InterfazDeServer;
 import common.User;
 
@@ -37,8 +38,8 @@ public class RunClient {
 			System.out.println("Para ver todos los aviones, presione 1");
 			System.out.println("Para ver todos los usuarios, presione 2");
 			System.out.println("Para ver todos los aviones con sus pasajeros, presione 3");
-			System.out.println("Para gestionar usuarios, presione 4");
-			System.out.println("Para gestionar aviones, presione 5");
+			System.out.println("Para agregar usuarios, presione 4");
+			System.out.println("Para agregar aviones, presione 5");
 			System.out.println("Para obtener los valores de la UF, aprete 6. ");
 			System.out.println("Para obtener datos de la API, aprete 7. ");
 			System.out.println("Para salir, presione 8");
@@ -64,12 +65,13 @@ public class RunClient {
                 break;
             case 4:
             	// 4. Gestionar Usuarios
-            	ArrayList<User> updateUsers = aux.manageUsers(cliente.getPeopleServer(), cliente.getAirplaneServer());
+            	ArrayList<User> updateUsers = aux.addUsers(cliente.getPeopleServer(), cliente.getAirplaneServer());
             	cliente.setPeopleServer(updateUsers);
                 break;
             case 5:
             	// 5. Gestionar Pasajeros
-            	aux.manageAirplanes(cliente.getAirplaneServer(), cliente.getPeopleServer());
+            	ArrayList<Airplane> updatePlane = aux.addAirplane(cliente.getAirplaneServer(), cliente.getPeopleServer());
+            	cliente.getAirplaneServer(updatePlane);
                 break;
             case 6:
             	// 6. UF
