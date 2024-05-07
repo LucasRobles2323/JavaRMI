@@ -6,6 +6,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
+import common.Airplane;
 import common.InterfazDeServer;
 import common.User;
 
@@ -23,8 +24,8 @@ public class Client {
 		return server.getPeople();
 	}
 	
-	public void setPersonServer(User person) throws RemoteException, NotBoundException {
-		server.setPerson(person);
+	public ArrayList<Airplane> getAirplaneServer() throws RemoteException {
+		return server.getAirplanes();
 	}
 
 }

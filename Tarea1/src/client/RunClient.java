@@ -31,10 +31,11 @@ public class RunClient {
 				aux.clearConsole();
 			}
 
-			System.out.println("(: Bienvenido a la aerolinea! :)");
-			System.out.println("1. Mostrar Personas Registradas");
-			System.out.println("2. Registrar Nueva Persona");
-			System.out.println("3. Salir");
+			System.out.println("BIENVENIDO A AEROLINEA LATAM! :)");
+			System.out.println("¿Qué quiere hacer hoy?");
+			System.out.println("Para ver todos los aviones, presione 1");
+			System.out.println("Para ver todos los usuarios, presione 2");
+			System.out.println("Para salir, presione 3");
             System.out.print("Seleccione una opción: ");
             
             // Leer la opción del usuario
@@ -42,12 +43,12 @@ public class RunClient {
 			
 			switch (opcion) {
             case 1:
-            	// 1. Mostrar Personas Registradas
-            	aux.displayClients( cliente.getPeopleServer() );
+            	// 1. Mostrar aviones
+            	aux.displayAirplanes( cliente.getAirplaneServer());
                 break;
             case 2:
-            	// 2. Registrar Nueva Persona
-            	cliente.setPersonServer( aux.addPerson() );
+            	// 2. Mostrar usuarios
+            	
                 break;
             case 3:
             	// 3. Salir

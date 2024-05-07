@@ -3,8 +3,10 @@ package client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import common.Airplane;
 import common.User;
 
 public class auxiliarClient {
@@ -16,20 +18,44 @@ public class auxiliarClient {
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	}
 	
-	public void displayClients(ArrayList<User> BD) {
-		System.out.println("\n\n");
-		System.out.println("Personas Registradas:");
-		for (int i = 0; i < BD.size(); i++) {
-            User persona = BD.get(i);
-            System.out.println("	- " + persona.getNombre() + " tiene " + persona.getEdad() + " años");
-        }
+	public void displayUsers(ArrayList<User> BD) {
+		
 	}
 	
-	public User addPerson() throws IOException {
-		System.out.println("\n\n");
-		System.out.println("Nueva Persona:");
-		User person = new User(getName(), getAge());
-		return person;
+	public void displayAirplanes(ArrayList<Airplane> BD) {
+		
+		System.out.println("\nAVIONES\n");
+		System.out.println("\n*******************************************");
+		
+		for (int i = 0; i < BD.size(); i++) {
+			Airplane plane = BD.get(i);
+			String nombre, phone, destino, origen;
+			int id, allseats, freeseats;
+			Timestamp takeoff, arrive;
+			
+			// int
+			id = plane.getId_usuario();
+			allseats = plane.getAirplane_Seats();
+			freeseats = plane.getFree_Seats();
+			
+			// string
+			nombre = plane.getName_pilot();
+			phone = plane.getPhone_Pilot();
+			destino = plane.getDestination();
+			origen = plane.getOrigin();
+			
+			// Timestamp
+			takeoff = plane.getTakeoff_hr();
+			arrive = plane.getArrive_hr();
+			
+			System.out.println("ID Avion: "+ id);
+			System.out.println("Piloto:\tNombre: " + nombre + "\t Telefono: " + phone);
+			System.out.println("Sillas: "+ allseats + "\t Desocupadas: " + freeseats);
+			System.out.println("Origen: "+ origen + "\t Salida: " + takeoff);
+			System.out.println("Destino: "+ destino + "\t Llegada: " + arrive);
+			
+			System.out.println("*******************************************\n");
+		}
 	}
 	
 	public String getName() throws IOException {

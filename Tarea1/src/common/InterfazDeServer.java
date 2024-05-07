@@ -8,10 +8,10 @@ import common.User;
 
 public interface InterfazDeServer extends Remote{
 	ArrayList<User> getPeople() throws RemoteException;
+	
+	ArrayList<Airplane> getAirplanes() throws RemoteException;
 
 	Object getUF() throws RemoteException;
 
 	String getBD_SQL() throws RemoteException;
-
-	void setPerson(User person) throws RemoteException;
 }
