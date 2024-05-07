@@ -54,16 +54,16 @@ public class RunClient {
             	aux.displayUsers( cliente.getPeopleServer());
                 break;
             case 3:
-            	// 3. Salir
+            	// 3. Mostrar aviones con pasajeros
                 aux.displayAll(cliente.getAirplaneServer(), cliente.getPeopleServer());
                 break;
             case 4:
             	// 4. Gestionar Aviones
-            	
+            	aux.manageUsers(cliente.getPeopleServer());
                 break;
             case 5:
             	// 5. Gestionar Pasajeros
-            	
+            	aux.manageAirplanes(cliente.getAirplaneServer());
                 break;
             case 6:
             	// 3. Salir
@@ -73,7 +73,6 @@ public class RunClient {
             default:
                 System.out.println("Opción no válida");
 			}
-		
 		}
 		
 	}

@@ -39,7 +39,13 @@ public class auxiliarClient {
 			System.out.println("ID Usuario: "+ userID);
 			System.out.println("Nombre: " + nombre);
 			System.out.println("Correo: " + email + "\t Edad: " + edad);
-			System.out.println("Vuelo: "+ airplaneID);
+			if(airplaneID == -1) {
+				System.out.println("Su vuelo fue eliminado.");
+			}
+			else {
+				System.out.println("Vuelo: "+ airplaneID);
+			}
+			
 			
 			System.out.println("*******************************************\n");
 		}
@@ -118,7 +124,7 @@ public class auxiliarClient {
 				for (int j = 0; j < usersBD.size(); j++) {
 					User passenger = usersBD.get(j);
 					
-					System.out.printf(" | %-12s | %-100s |\n", "ID Usuario", "Nombre");
+					System.out.printf(" | %-12s | %-50s |\n", "ID Usuario", "Nombre");
 					if(idAirplane == passenger.getIdPlane()) {
 						String name;
 						int userID;
@@ -128,7 +134,7 @@ public class auxiliarClient {
 						name = passenger.getName();
 						
 						
-						System.out.printf(" | %-12d | %-100s |\n", userID, name);
+						System.out.printf(" | %-12d | %-50s |\n", userID, name);
 					}
 				}
 			}
@@ -139,12 +145,102 @@ public class auxiliarClient {
 		}
 	}
 	
-	public ArrayList<User> manageUsers() {
-		return null;
+	public void manageUsers(ArrayList<User> usersBD) throws InterruptedException, NumberFormatException, IOException {
+		clearConsole();
+		
+		boolean salir = false;
+		int opcion = -1;
+		
+		
+		while(!salir) {
+			if (opcion != -1) {
+				System.out.println("\n\nEspere 2 segundos ...");
+				Thread.sleep(2000); //2 segundos
+				clearConsole();
+			}
+
+			System.out.println("Gestionar Usuarios");
+			System.out.println("¿Qué quiere hacer hoy?");
+			System.out.println("Para agregar un nuevo usuario, presione 1");
+			System.out.println("Para editar un usuario existente, presione 2");
+			System.out.println("Para eliminar un usuario, presione 3");
+			System.out.println("Para salir, presione 4");
+            System.out.print("Seleccione una opción: ");
+            
+            // Leer la opción del usuario
+            opcion = Integer.parseInt(br.readLine());
+			
+			switch (opcion) {
+            case 1:
+            	// 1. Agregar Usuario
+            	
+                break;
+            case 2:
+            	// 2. Editar Usuario
+            	
+                break;
+            case 3:
+            	// 3. Eliminar usuario
+                
+                break;
+            case 4:
+            	// 4. Salir
+            	salir = true;
+                clearConsole();
+                break;
+            default:
+                System.out.println("Opción no válida");
+			}
+		}
 	}
 	
-	public ArrayList<Airplane> manageAirplanes() {
-		return null;
+	public void manageAirplanes(ArrayList<Airplane> planesBD) throws InterruptedException, NumberFormatException, IOException {
+		clearConsole();
+		
+		boolean salir = false;
+		int opcion = -1;
+		
+		
+		while(!salir) {
+			if (opcion != -1) {
+				System.out.println("\n\nEspere 2 segundos ...");
+				Thread.sleep(2000); //2 segundos
+				clearConsole();
+			}
+
+			System.out.println("Gestionar Usuarios");
+			System.out.println("¿Qué quiere hacer hoy?");
+			System.out.println("Para agregar un nuevo avion, presione 1");
+			System.out.println("Para editar un avion existente, presione 2");
+			System.out.println("Para eliminar un avion, presione 3");
+			System.out.println("Para salir, presione 4");
+            System.out.print("Seleccione una opción: ");
+            
+            // Leer la opción del usuario
+            opcion = Integer.parseInt(br.readLine());
+			
+			switch (opcion) {
+            case 1:
+            	// 1. Agregar Avion
+            	
+                break;
+            case 2:
+            	// 2. Editar Avion
+            	
+                break;
+            case 3:
+            	// 3. Eliminar Avion
+                
+                break;
+            case 4:
+            	// 4. Salir
+            	salir = true;
+                clearConsole();
+                break;
+            default:
+                System.out.println("Opción no válida");
+			}
+		}
 	}
 	
 	public String getName() throws IOException {
