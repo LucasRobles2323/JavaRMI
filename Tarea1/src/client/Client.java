@@ -20,6 +20,14 @@ public class Client {
 		server = (InterfazDeServer) registry.lookup("serverDePersonas");
 	}
 	
+	public String getDataFromApi() throws RemoteException{
+		return server.getDataFromApi();
+	}
+	
+	Object[] getUF() throws RemoteException {
+		return server.getUF();
+	}
+	
 	public ArrayList<User> getPeopleServer() throws RemoteException {
 		return server.getPeople();
 	}

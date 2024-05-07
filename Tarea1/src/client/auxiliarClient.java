@@ -15,7 +15,7 @@ public class auxiliarClient {
 	public auxiliarClient() {}
 	
 	public static void clearConsole() {
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	}
 	
 	public void displayUsers(ArrayList<User> BD) {
@@ -145,7 +145,27 @@ public class auxiliarClient {
 		}
 	}
 	
-	public void manageUsers(ArrayList<User> usersBD) throws InterruptedException, NumberFormatException, IOException {
+	public void displayUF(Object[] ufValues) {
+		if(ufValues == null) 
+		{
+			System.out.println("Hubo un error, no llego nada de la API");
+		} 
+		else 
+		{
+			String codigo = (String) ufValues[0];
+			String nombre = (String) ufValues[1];
+			String fecha = (String) ufValues[2];
+			String unidad_medida = (String) ufValues[3];
+			double valor = (double) ufValues[4];
+			
+			System.out.println("Los valores obtenidos para la UF son:");
+			System.out.println("	Codigo: "+ codigo + "  Nombre: " + nombre);
+			System.out.println("	Fecha: " + fecha + " ");
+			System.out.println("	Unidad de Medida: " + unidad_medida + "  Valor: " + valor);
+		}
+	}
+	
+	public void manageUsers(ArrayList<User> usersBD, ArrayList<Airplane> planesBD) throws InterruptedException, NumberFormatException, IOException {
 		clearConsole();
 		
 		boolean salir = false;
@@ -194,7 +214,7 @@ public class auxiliarClient {
 		}
 	}
 	
-	public void manageAirplanes(ArrayList<Airplane> planesBD) throws InterruptedException, NumberFormatException, IOException {
+	public void manageAirplanes(ArrayList<Airplane> planesBD, ArrayList<User> usersBD) throws InterruptedException, NumberFormatException, IOException {
 		clearConsole();
 		
 		boolean salir = false;
@@ -242,14 +262,6 @@ public class auxiliarClient {
 			}
 		}
 	}
+
 	
-	public String getName() throws IOException {
-        System.out.print(" - Escriba el nombre: ");
-        return br.readLine();
-	}
-	
-	public int getAge() throws IOException {
-        System.out.print(" - Escriba la edad: ");
-        return Integer.parseInt(br.readLine());
-	}
 }

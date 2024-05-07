@@ -11,6 +11,7 @@ import common.InterfazDeServer;
 import common.User;
 
 public class RunClient {
+	
 	public static void main(String[] args) throws  NotBoundException, IOException, InterruptedException {
 		Client cliente = new Client();
 		
@@ -38,11 +39,15 @@ public class RunClient {
 			System.out.println("Para ver todos los aviones con sus pasajeros, presione 3");
 			System.out.println("Para gestionar usuarios, presione 4");
 			System.out.println("Para gestionar aviones, presione 5");
-			System.out.println("Para salir, presione 6");
+			System.out.println("Para obtener los valores de la UF, aprete 6. ");
+			System.out.println("Para obtener datos de la API, aprete 7. ");
+			System.out.println("Para salir, presione 8");
             System.out.print("Seleccione una opción: ");
             
             // Leer la opción del usuario
             opcion = Integer.parseInt(br.readLine());
+            
+            System.out.print("\n");
 			
 			switch (opcion) {
             case 1:
@@ -58,15 +63,23 @@ public class RunClient {
                 aux.displayAll(cliente.getAirplaneServer(), cliente.getPeopleServer());
                 break;
             case 4:
-            	// 4. Gestionar Aviones
-            	aux.manageUsers(cliente.getPeopleServer());
+            	// 4. Gestionar Usuarios
+            	aux.manageUsers(cliente.getPeopleServer(), cliente.getAirplaneServer());
                 break;
             case 5:
             	// 5. Gestionar Pasajeros
-            	aux.manageAirplanes(cliente.getAirplaneServer());
+            	aux.manageAirplanes(cliente.getAirplaneServer(), cliente.getPeopleServer());
                 break;
             case 6:
-            	// 3. Salir
+            	// 6. UF
+            	aux.displayUF(cliente.getUF());
+                break;
+            case 7:
+            	// 7. API
+            	System.out.println(cliente.getDataFromApi());
+                break;
+            case 8:
+            	// 8. Salir
             	salir = true;
                 aux.clearConsole();
                 break;

@@ -11,7 +11,7 @@ public interface InterfazDeServer extends Remote{
 	
 	ArrayList<Airplane> getAirplanes() throws RemoteException;
 
-	Object getUF() throws RemoteException;
+	Object[] getUF() throws RemoteException;
 
-	String getBD_SQL() throws RemoteException;
+	String getDataFromApi() throws RemoteException;
 }
