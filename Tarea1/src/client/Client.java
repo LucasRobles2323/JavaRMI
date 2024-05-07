@@ -32,8 +32,16 @@ public class Client {
 		return server.getPeople();
 	}
 	
+	public void setPeopleServer(ArrayList<User> updateUsers) throws RemoteException {
+		server.setPeople(updateUsers);
+	}
+	
 	public ArrayList<Airplane> getAirplaneServer() throws RemoteException {
 		return server.getAirplanes();
+	}
+	
+	public void getAirplaneServer(ArrayList<Airplane> updatedPlanes) throws RemoteException {
+		server.setAirplanes(updatedPlanes);
 	}
 
 }

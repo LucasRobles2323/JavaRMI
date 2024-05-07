@@ -165,7 +165,7 @@ public class auxiliarClient {
 		}
 	}
 	
-	public void manageUsers(ArrayList<User> usersBD, ArrayList<Airplane> planesBD) throws InterruptedException, NumberFormatException, IOException {
+	public ArrayList<User> manageUsers(ArrayList<User> usersBD, ArrayList<Airplane> planesBD) throws InterruptedException, NumberFormatException, IOException {
 		clearConsole();
 		
 		boolean salir = false;
@@ -193,7 +193,44 @@ public class auxiliarClient {
 			switch (opcion) {
             case 1:
             	// 1. Agregar Usuario
-            	
+            	// 1. Agregar Usuario
+                System.out.println("Agregar nuevo usuario:");
+
+                System.out.print("Escriba la ID del usuario: ");
+                int userId = Integer.parseInt(br.readLine());
+                
+                // Verificar si la ID ya existe
+                boolean idExists = false;
+                for (User user : usersBD) {
+                    if (user.getIdUser() == userId) {
+                        idExists = true;
+                        break;
+                    }
+                }
+
+                if (idExists) {
+                    System.out.println("¡Error! La ID de usuario ingresada ya existe. Intente con una ID diferente.");
+                    break;
+                }
+
+                System.out.print("Escriba el nombre: ");
+                String name = br.readLine();
+
+                System.out.print("Escriba la edad: ");
+                int age = Integer.parseInt(br.readLine());
+
+                System.out.print("Escriba el correo electrónico: ");
+                String email = br.readLine();
+                
+                System.out.print("Escriba el ID del vuelo: ");
+                int idAirplane = Integer.parseInt(br.readLine());
+
+                User newUser = new User(userId, name, age, email, idAirplane); // -1 indica que el usuario no tiene un avión asignado
+
+                // Agregar el nuevo usuario a la lista usersBD
+                usersBD.add(newUser);
+
+                System.out.println("Usuario agregado correctamente.");
                 break;
             case 2:
             	// 2. Editar Usuario
@@ -212,6 +249,8 @@ public class auxiliarClient {
                 System.out.println("Opción no válida");
 			}
 		}
+		
+		return usersBD;
 	}
 	
 	public void manageAirplanes(ArrayList<Airplane> planesBD, ArrayList<User> usersBD) throws InterruptedException, NumberFormatException, IOException {
@@ -262,6 +301,5 @@ public class auxiliarClient {
 			}
 		}
 	}
-
 	
 }

@@ -64,7 +64,8 @@ public class RunClient {
                 break;
             case 4:
             	// 4. Gestionar Usuarios
-            	aux.manageUsers(cliente.getPeopleServer(), cliente.getAirplaneServer());
+            	ArrayList<User> updateUsers = aux.manageUsers(cliente.getPeopleServer(), cliente.getAirplaneServer());
+            	cliente.setPeopleServer(updateUsers);
                 break;
             case 5:
             	// 5. Gestionar Pasajeros

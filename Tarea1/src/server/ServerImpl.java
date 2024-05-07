@@ -110,8 +110,18 @@ public class ServerImpl implements InterfazDeServer {
 	}
 	
 	@Override
+	public void setPeople(ArrayList<User> updateUsers) throws RemoteException{
+		this.peopleBD_copia = updateUsers;
+	}
+	
+	@Override
 	public ArrayList<Airplane> getAirplanes() throws RemoteException {
 		return airplanesBD_copia;
+	}
+	
+	@Override
+	public void setAirplanes(ArrayList<Airplane> updateAirplanes) throws RemoteException{
+		this.airplanesBD_copia = updateAirplanes;
 	}
 
 	@Override
