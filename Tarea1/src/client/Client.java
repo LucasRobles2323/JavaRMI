@@ -33,7 +33,9 @@ public class Client {
 	}
 	
 	public void setPeopleServer(ArrayList<User> updateUsers) throws RemoteException {
-		server.setPeople(updateUsers);
+		if(updateUsers != null) {
+			server.setPeople(updateUsers);
+		}
 	}
 	
 	public ArrayList<Airplane> getAirplaneServer() throws RemoteException {
@@ -41,7 +43,9 @@ public class Client {
 	}
 	
 	public void getAirplaneServer(ArrayList<Airplane> updatedPlanes) throws RemoteException {
-		server.setAirplanes(updatedPlanes);
+		if(updatedPlanes != null) {
+			server.setAirplanes(updatedPlanes);
+		}
 	}
 
 }

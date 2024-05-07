@@ -176,12 +176,10 @@ public class auxiliarClient {
         for (User user : usersBD) {
             if (user.getIdUser() == userId) {
                 idExists = true;
-                break;
+                
+                System.out.println("¡Error! La ID de usuario ingresada ya existe.");
+                return null;
             }
-        }
-
-        if (idExists) {
-            System.out.println("¡Error! La ID de usuario ingresada ya existe. Intente con una ID diferente.");
         }
 
         System.out.print("Escriba el nombre: ");
@@ -207,7 +205,6 @@ public class auxiliarClient {
 	}
 	
 	public ArrayList<Airplane> addAirplane(ArrayList<Airplane> planesBD, ArrayList<User> usersBD) throws NumberFormatException, IOException{
-		
         
         return planesBD;
 	}
