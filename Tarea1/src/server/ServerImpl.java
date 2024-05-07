@@ -53,11 +53,12 @@ public class ServerImpl implements InterfazDeServer {
 				// int
 				int id = results.getInt("ID_User");
 				int edad = results.getInt("Age");
+				int idPlane = results.getInt("ID_Airplane");
 				// string
 				String nombre = results.getString("Name");
 				String email = results.getString("Email");
 				
-				User newUser = new User(id, nombre, edad, email);
+				User newUser = new User(id, nombre, edad, email, idPlane);
 				peopleBD_copia.add(newUser);
 			}
 			
@@ -66,8 +67,8 @@ public class ServerImpl implements InterfazDeServer {
 			while (results.next()) {
 				// int
 				int id = results.getInt("ID_Airplane");
-				int allSeats = results.getInt("Airplane_Seats");
-				int freeSeats = results.getInt("Free_Seats");
+				int allSeats = results.getInt("Seats");
+				int passengers = results.getInt("Passengers");
 				
 				// string
 				String nombre = results.getString("Name_Pilot");
@@ -79,8 +80,8 @@ public class ServerImpl implements InterfazDeServer {
 				Timestamp takeoff = results.getTimestamp("Takeoff_hr");
 				Timestamp arrive = results.getTimestamp("Arrive_hr");
 				
-				Airplane newAirplane = new Airplane(id, nombre,phone, allSeats, 
-						 freeSeats, takeoff, arrive, destination, origin);
+				Airplane newAirplane = new Airplane(id, nombre,phone, allSeats, passengers,
+						 takeoff, arrive, destination, origin);
 				
 				airplanesBD_copia.add(newAirplane);
 			}

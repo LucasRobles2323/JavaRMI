@@ -11,17 +11,19 @@ public class User implements Serializable {
     private String name;
     private int age;
     private String email;
+    private int idAirplane;
 	
- // Constructor
-    public User(int Id_User, String Name, int Age, String Email) {
+    // Constructor
+    public User(int Id_User, String Name, int Age, String Email, int idPlane) {
         this.idUser = Id_User;
         this.name = Name;
         this.age = Age;
         this.email = Email;
+        this.idAirplane = idPlane;
     }
 
     // Getters
-    public int getidUser() {
+    public int getIdUser() {
         return this.idUser;
     }
 
@@ -35,6 +37,10 @@ public class User implements Serializable {
 
     public String getEmail() {
         return this.email;
+    }
+    
+    public int getIdPlane() {
+        return this.idAirplane;
     }
 
     // Setters
@@ -52,5 +58,9 @@ public class User implements Serializable {
 
     public void setEmail(String Email) {
         this.email = Email;
+    }
+    
+    public void setIdPlane(int idPlane) {
+        this.idAirplane = idPlane;
     }
 }

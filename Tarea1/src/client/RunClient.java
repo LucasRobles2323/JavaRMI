@@ -35,7 +35,10 @@ public class RunClient {
 			System.out.println("¿Qué quiere hacer hoy?");
 			System.out.println("Para ver todos los aviones, presione 1");
 			System.out.println("Para ver todos los usuarios, presione 2");
-			System.out.println("Para salir, presione 3");
+			System.out.println("Para ver todos los aviones con sus pasajeros, presione 3");
+			System.out.println("Para gestionar usuarios, presione 4");
+			System.out.println("Para gestionar aviones, presione 5");
+			System.out.println("Para salir, presione 6");
             System.out.print("Seleccione una opción: ");
             
             // Leer la opción del usuario
@@ -48,11 +51,23 @@ public class RunClient {
                 break;
             case 2:
             	// 2. Mostrar usuarios
-            	
+            	aux.displayUsers( cliente.getPeopleServer());
                 break;
             case 3:
             	// 3. Salir
-                salir = true;
+                aux.displayAll(cliente.getAirplaneServer(), cliente.getPeopleServer());
+                break;
+            case 4:
+            	// 4. Gestionar Aviones
+            	
+                break;
+            case 5:
+            	// 5. Gestionar Pasajeros
+            	
+                break;
+            case 6:
+            	// 3. Salir
+            	salir = true;
                 aux.clearConsole();
                 break;
             default:

@@ -11,21 +11,22 @@ public class Airplane implements Serializable {
 	private int id_usuario;
     private String name_pilot;
     private String phone_Pilot;
-    private int airplane_Seats;
-    private int free_Seats;
+    private int seats;
+    private int passengers;
     private Timestamp takeoff_hr;
     private Timestamp arrive_hr;
     private String destination;
     private String origin;
-
-	public Airplane(int id_usuario, String name_pilot, String phone_Pilot, int airplane_Seats, 
-    				int free_Seats, Timestamp takeoff_hr, Timestamp arrive_hr, 
+    
+    // Constructor
+	public Airplane(int id_usuario, String name_pilot, String phone_Pilot, int seats, int passengers,
+    				Timestamp takeoff_hr, Timestamp arrive_hr, 
     				String destination, String origin) {
         this.id_usuario = id_usuario;
         this.name_pilot = name_pilot;
         this.phone_Pilot = phone_Pilot;
-        this.airplane_Seats = airplane_Seats;
-        this.free_Seats = free_Seats;
+        this.seats = seats;
+        this.passengers = passengers;
         this.takeoff_hr = takeoff_hr;
         this.arrive_hr = arrive_hr;
         this.destination = destination;
@@ -34,39 +35,39 @@ public class Airplane implements Serializable {
 
     // Getters
     public int getId_usuario() {
-        return id_usuario;
+        return this.id_usuario;
     }
 
     public String getName_pilot() {
-        return name_pilot;
+        return this.name_pilot;
     }
 
     public String getPhone_Pilot() {
-        return phone_Pilot;
+        return this.phone_Pilot;
     }
 
-    public int getAirplane_Seats() {
-        return airplane_Seats;
+    public int getSeats() {
+        return this.seats;
     }
-
-    public int getFree_Seats() {
-        return free_Seats;
+    
+    public int getPassengers() {
+        return this.passengers;
     }
 
     public Timestamp getTakeoff_hr() {
-        return takeoff_hr;
+        return this.takeoff_hr;
     }
 
     public Timestamp getArrive_hr() {
-        return arrive_hr;
+        return this.arrive_hr;
     }
 
     public String getDestination() {
-        return destination;
+        return this.destination;
     }
 
     public String getOrigin() {
-        return origin;
+        return this.origin;
     }
 
     // Setters
@@ -82,12 +83,12 @@ public class Airplane implements Serializable {
         this.phone_Pilot = phone_Pilot;
     }
 
-    public void setAirplane_Seats(int airplane_Seats) {
-        this.airplane_Seats = airplane_Seats;
+    public void setseats(int seats) {
+        this.seats = seats;
     }
-
-    public void setFree_Seats(int free_Seats) {
-        this.free_Seats = free_Seats;
+    
+    public void setPassengers(int passengers) {
+        this.passengers = passengers;
     }
 
     public void setTakeoff_hr(Timestamp takeoff_hr) {
