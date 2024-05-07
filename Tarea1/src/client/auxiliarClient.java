@@ -182,9 +182,8 @@ public class auxiliarClient {
 			System.out.println("Gestionar Usuarios");
 			System.out.println("¿Qué quiere hacer hoy?");
 			System.out.println("Para agregar un nuevo usuario, presione 1");
-			System.out.println("Para editar un usuario existente, presione 2");
-			System.out.println("Para eliminar un usuario, presione 3");
-			System.out.println("Para salir, presione 4");
+			System.out.println("Para eliminar un usuario, presione 2");
+			System.out.println("Para salir, presione 3");
             System.out.print("Seleccione una opción: ");
             
             // Leer la opción del usuario
@@ -233,14 +232,10 @@ public class auxiliarClient {
                 System.out.println("Usuario agregado correctamente.");
                 break;
             case 2:
-            	// 2. Editar Usuario
-            	
-                break;
-            case 3:
             	// 3. Eliminar usuario
                 
                 break;
-            case 4:
+            case 3:
             	// 4. Salir
             	salir = true;
                 clearConsole();
@@ -270,9 +265,8 @@ public class auxiliarClient {
 			System.out.println("Gestionar Usuarios");
 			System.out.println("¿Qué quiere hacer hoy?");
 			System.out.println("Para agregar un nuevo avion, presione 1");
-			System.out.println("Para editar un avion existente, presione 2");
-			System.out.println("Para eliminar un avion, presione 3");
-			System.out.println("Para salir, presione 4");
+			System.out.println("Para eliminar un avion, presione 2");
+			System.out.println("Para salir, presione 3");
             System.out.print("Seleccione una opción: ");
             
             // Leer la opción del usuario
@@ -284,14 +278,10 @@ public class auxiliarClient {
             	
                 break;
             case 2:
-            	// 2. Editar Avion
-            	
-                break;
-            case 3:
             	// 3. Eliminar Avion
                 
                 break;
-            case 4:
+            case 3:
             	// 4. Salir
             	salir = true;
                 clearConsole();
