@@ -16,7 +16,6 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,7 +31,6 @@ public class ServerImpl implements InterfazDeServer {
 		startBD();
 		UnicastRemoteObject.exportObject(this, 0);
 	}
-
 	
 	private ArrayList<User> peopleBD_copia = new ArrayList<>();
 	private ArrayList<Airplane> airplanesBD_copia = new ArrayList<>();
@@ -46,18 +44,15 @@ public class ServerImpl implements InterfazDeServer {
 	    	String url = "jdbc:mysql://localhost:3306/aeroline";
 			String username = "root";
 			String password_BD = "";
-			//PreparedStatement test = null;
 			
 			
 			connection = DriverManager.getConnection(url, username, password_BD);
 	    	
-	    	//TODO Metodos con la BD
 			query = connection.createStatement();
 			String sqlUser = "SELECT * FROM user";
 			String sqlAirplane = "SELECT * FROM airplane";
-			//INSERT para agregar datos a la BD, PreparedStatement
 			
-			// Guardar Usuarios
+			/* GUARDAR USUARIOS LOCALMENTE */
 			results = query.executeQuery(sqlUser);
 			while (results.next()) {
 				// int
@@ -72,7 +67,7 @@ public class ServerImpl implements InterfazDeServer {
 				peopleBD_copia.add(newUser);
 			}
 			
-			// Guardar Usuarios
+			/* GUARDAR AVIONES LOCALMENTE */
 			results = query.executeQuery(sqlAirplane);
 			while (results.next()) {
 				// int
@@ -104,6 +99,110 @@ public class ServerImpl implements InterfazDeServer {
 	    }
 	}
 	
+	public void addUsersIntoBD() {
+	    Connection connection = null;
+	    
+	    try {
+	    	String url = "jdbc:mysql://localhost:3306/aeroline";
+			String username = "root";
+			String password_BD = "";
+			
+			
+			connection = DriverManager.getConnection(url, username, password_BD);
+	    	
+			/* INSERTAR AVIONES EN SQL */
+			 String sqlInsertUser = "INSERT INTO user (ID_User, Name, Age, Email, ID_Airplane) VALUES (?, ?, ?, ?, ?)";
+		     PreparedStatement insertUserStatement = connection.prepareStatement(sqlInsertUser);
+
+		     // Iterar sobre los usuarios en la lista copia
+		     for (User user : peopleBD_copia) {
+		    	 // Verificar si el usuario ya existe en la base de datos
+		    	 boolean userNoExists = false;
+		    	 String checkIfExistsQuery = "SELECT * FROM user WHERE ID_User = ?";
+		    	 PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
+		    	 checkIfExistsStatement.setInt(1, user.getIdUser());
+		    	 ResultSet resultSet = checkIfExistsStatement.executeQuery();
+
+		    	 if (!resultSet.next()) {
+		    		 // El usuario no existe en la base de datos
+		    		 userNoExists = true;
+		    	 }
+
+		    	 if (userNoExists) { 
+		    		 // Establecer los valores de los parámetros de la consulta
+		             insertUserStatement.setInt(1, user.getIdUser());
+		             insertUserStatement.setString(2, user.getName());
+		             insertUserStatement.setInt(3, user.getAge());
+		             insertUserStatement.setString(4, user.getEmail());
+		             insertUserStatement.setInt(5, user.getIdPlane());
+
+		             // Ejecutar la consulta para insertar el usuario
+		             insertUserStatement.executeUpdate();
+				 }
+		    }
+	        
+			System.out.println("Actualización exitosa");
+			connection.close();
+	    }catch(SQLException e){
+	    	e.printStackTrace();
+	    	System.out.println("No se pudo conectar a la Base de Datos");
+	    }
+	}
+	
+	public void addAirplanesIntoBD() {
+	    Connection connection = null;
+	    
+	    try {
+	    	String url = "jdbc:mysql://localhost:3306/aeroline";
+			String username = "root";
+			String password_BD = "";
+			
+			
+			connection = DriverManager.getConnection(url, username, password_BD);
+	        
+	        /* INSERTAR AVIONES EN SQL */
+	        String sqlInsertAirplane = "INSERT INTO airplane (ID_Airplane, Name_Pilot, Phone_Pilot, Seats, Passengers, Takeoff_hr, Arrive_hr, Destination, Origin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement insertAirplaneStatement = connection.prepareStatement(sqlInsertAirplane);
+
+	        // Iterar sobre los aviones en la lista copia
+	        for (Airplane airplane : airplanesBD_copia) {
+	            // Verificar si el avión ya existe en la base de datos
+	            boolean airplaneNoExists = false;
+	            String checkIfExistsQuery = "SELECT * FROM airplane WHERE ID_Airplane = ?";
+	            PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
+	            checkIfExistsStatement.setInt(1, airplane.getAirplaneID());
+	            ResultSet resultSet = checkIfExistsStatement.executeQuery();
+
+	            if (!resultSet.next()) {
+	                // El avión no existe en la base de datos
+	                airplaneNoExists = true;
+	            }
+
+	            if (airplaneNoExists) {
+	                // Establecer los valores de los parámetros de la consulta
+	                insertAirplaneStatement.setInt(1, airplane.getAirplaneID());
+	                insertAirplaneStatement.setString(2, airplane.getName_pilot());
+	                insertAirplaneStatement.setString(3, airplane.getPhone_Pilot());
+	                insertAirplaneStatement.setInt(4, airplane.getSeats());
+	                insertAirplaneStatement.setInt(5, airplane.getPassengers());
+	                insertAirplaneStatement.setTimestamp(6, airplane.getTakeoff_hr());
+	                insertAirplaneStatement.setTimestamp(7, airplane.getArrive_hr());
+	                insertAirplaneStatement.setString(8, airplane.getDestination());
+	                insertAirplaneStatement.setString(9, airplane.getOrigin());
+
+	                // Ejecutar la consulta para insertar el avión
+	                insertAirplaneStatement.executeUpdate();
+	            }
+	        }
+	        
+			System.out.println("Actualización exitosa");
+			connection.close();
+	    }catch(SQLException e){
+	    	e.printStackTrace();
+	    	System.out.println("No se pudo conectar a la Base de Datos");
+	    }
+	}
+	
 	@Override
 	public ArrayList<User> getPeople() throws RemoteException {
 		return peopleBD_copia;
@@ -112,6 +211,7 @@ public class ServerImpl implements InterfazDeServer {
 	@Override
 	public void setPeople(ArrayList<User> updateUsers) throws RemoteException{
 		this.peopleBD_copia = updateUsers;
+		addUsersIntoBD();
 	}
 	
 	@Override
@@ -122,6 +222,7 @@ public class ServerImpl implements InterfazDeServer {
 	@Override
 	public void setAirplanes(ArrayList<Airplane> updateAirplanes) throws RemoteException{
 		this.airplanesBD_copia = updateAirplanes;
+		addAirplanesIntoBD();
 	}
 
 	@Override

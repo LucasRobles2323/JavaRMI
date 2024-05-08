@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import common.User;
 
 public interface InterfazDeServer extends Remote{
+	
 	ArrayList<User> getPeople() throws RemoteException;
 	
 	void setPeople(ArrayList<User> updateUsers) throws RemoteException;

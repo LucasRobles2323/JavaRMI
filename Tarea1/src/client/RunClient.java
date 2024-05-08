@@ -35,14 +35,16 @@ public class RunClient {
 
 			System.out.println("BIENVENIDO A AEROLINEA LATAM! :)");
 			System.out.println("¿Qué quiere hacer hoy?");
-			System.out.println("Para ver todos los aviones, presione 1");
-			System.out.println("Para ver todos los usuarios, presione 2");
-			System.out.println("Para ver todos los aviones con sus pasajeros, presione 3");
-			System.out.println("Para agregar usuarios, presione 4");
-			System.out.println("Para agregar aviones, presione 5");
-			System.out.println("Para obtener los valores de la UF, aprete 6. ");
-			System.out.println("Para obtener datos de la API, aprete 7. ");
-			System.out.println("Para salir, presione 8");
+			System.out.println("1. Para obtener los valores de la UF.");
+			System.out.println("2. Para obtener datos de la API.");
+			System.out.println("3. Para ver todos los aviones.");
+			System.out.println("4. Para ver todos los usuarios.");
+			System.out.println("5. Para ver todos los aviones con sus pasajeros.");
+			System.out.println("6. Para agregar usuarios.");
+			System.out.println("7. Para eliminar usuarios.");
+			System.out.println("8. Para agregar aviones.");
+			System.out.println("9. Para eliminar aviones.");
+			System.out.println("10. Para salir.");
             System.out.print("Seleccione una opción: ");
             
             // Leer la opción del usuario
@@ -52,36 +54,42 @@ public class RunClient {
 			
 			switch (opcion) {
             case 1:
-            	// 1. Mostrar aviones
-            	aux.displayAirplanes( cliente.getAirplaneServer());
+            	// 1. UF
+            	aux.displayUF(cliente.getUF());
                 break;
             case 2:
-            	// 2. Mostrar usuarios
-            	aux.displayUsers( cliente.getPeopleServer());
+            	// 2. API
+            	System.out.println(cliente.getDataFromApi());
                 break;
             case 3:
-            	// 3. Mostrar aviones con pasajeros
-                aux.displayAll(cliente.getAirplaneServer(), cliente.getPeopleServer());
+            	// 3. Mostrar aviones
+            	aux.displayAirplanes( cliente.getAirplaneServer());
                 break;
             case 4:
-            	// 4. Gestionar Usuarios
-            	ArrayList<User> updateUsers = aux.addUsers(cliente.getPeopleServer(), cliente.getAirplaneServer());
-            	cliente.setPeopleServer(updateUsers);
+            	// 4. Mostrar usuarios
+            	aux.displayUsers( cliente.getPeopleServer());
                 break;
             case 5:
-            	// 5. Gestionar Pasajeros
+            	// 5. Mostrar aviones con pasajeros
+                aux.displayAll(cliente.getAirplaneServer(), cliente.getPeopleServer());
+                break;
+            case 6:
+            	// 6. Agregar Usuarios
             	ArrayList<Airplane> updatePlane = aux.addAirplane(cliente.getAirplaneServer(), cliente.getPeopleServer());
             	cliente.getAirplaneServer(updatePlane);
                 break;
-            case 6:
-            	// 6. UF
-            	aux.displayUF(cliente.getUF());
-                break;
             case 7:
-            	// 7. API
-            	System.out.println(cliente.getDataFromApi());
+            	// 7 Eliminar Usuarios
                 break;
             case 8:
+            	// 6. Agregar Avion
+            	ArrayList<User> updateUsers = aux.addUsers(cliente.getPeopleServer(), cliente.getAirplaneServer());
+            	cliente.setPeopleServer(updateUsers);
+                break;
+            case 9:
+            	// Eliminar Usuarios
+                break;
+            case 10:
             	// 8. Salir
             	salir = true;
                 aux.clearConsole();
@@ -89,7 +97,7 @@ public class RunClient {
             default:
                 System.out.println("Opción no válida");
 			}
+			
 		}
-		
 	}
 }

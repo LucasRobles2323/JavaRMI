@@ -8,7 +8,6 @@ import java.rmi.registry.Registry;
 import common.InterfazDeServer;
 import common.User;
 
-
 public class RunServer {
 	public static void main(String[] args) throws RemoteException, AlreadyBoundException {
 		InterfazDeServer server = new ServerImpl();

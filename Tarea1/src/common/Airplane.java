@@ -8,7 +8,7 @@ import common.InterfazDeServer;
 public class Airplane implements Serializable {
 	
 	public static final long serialVersionUID = 1L;
-	private int id_usuario;
+	private int id_airplane;
     private String name_pilot;
     private String phone_Pilot;
     private int seats;
@@ -19,10 +19,10 @@ public class Airplane implements Serializable {
     private String origin;
     
     // Constructor
-	public Airplane(int id_usuario, String name_pilot, String phone_Pilot, int seats, int passengers,
+	public Airplane(int id, String name_pilot, String phone_Pilot, int seats, int passengers,
     				Timestamp takeoff_hr, Timestamp arrive_hr, 
     				String destination, String origin) {
-        this.id_usuario = id_usuario;
+        this.id_airplane = id;
         this.name_pilot = name_pilot;
         this.phone_Pilot = phone_Pilot;
         this.seats = seats;
@@ -34,8 +34,8 @@ public class Airplane implements Serializable {
     }
 
     // Getters
-    public int getId_usuario() {
-        return this.id_usuario;
+    public int getAirplaneID() {
+        return this.id_airplane;
     }
 
     public String getName_pilot() {
@@ -71,8 +71,8 @@ public class Airplane implements Serializable {
     }
 
     // Setters
-    public void setId_usuario(int id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setAirplaneID(int id) {
+        this.id_airplane = id;
     }
 
     public void setName_pilot(String name_pilot) {
