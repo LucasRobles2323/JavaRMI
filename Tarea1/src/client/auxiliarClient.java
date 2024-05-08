@@ -59,13 +59,12 @@ public class auxiliarClient {
 		for (int i = 0; i < BD.size(); i++) {
 			Airplane plane = BD.get(i);
 			String nombre, phone, destino, origen;
-			int id, seats, passengers;
+			int id, seats;
 			Timestamp takeoff, arrive;
 			
 			// int
 			id = plane.getAirplaneID();
 			seats = plane.getSeats();
-			passengers = plane.getPassengers();
 			
 			// string
 			nombre = plane.getName_pilot();
@@ -79,7 +78,7 @@ public class auxiliarClient {
 			
 			System.out.println("ID Avion: "+ id);
 			System.out.println("Piloto:\tNombre: " + nombre + "\t Telefono: " + phone);
-			System.out.println("Asientos: "+ seats + "\t Disponibes: " + (seats - passengers));
+			System.out.println("Asientos: "+ seats);
 			System.out.println("Origen: "+ origen + "\t Salida: " + takeoff);
 			System.out.println("Destino: "+ destino + "\t Llegada: " + arrive);
 			
@@ -94,13 +93,12 @@ public class auxiliarClient {
 		for (int i = 0; i < planesBD.size(); i++) {
 			Airplane plane = planesBD.get(i);
 			String nombre, phone, destino, origen;
-			int idAirplane, seats, passengers;
+			int idAirplane, seats;
 			Timestamp takeoff, arrive;
 			
 			// int
 			idAirplane = plane.getAirplaneID();
 			seats = plane.getSeats();
-			passengers = plane.getPassengers();
 			
 			// string
 			nombre = plane.getName_pilot();
@@ -116,12 +114,23 @@ public class auxiliarClient {
 			System.out.println("Piloto:\tNombre: " + nombre + "\t Telefono: " + phone);
 			System.out.println("Asientos: "+ seats);
 			
-			System.out.println("Pasajeros: ");
-			if (passengers == 0) {
+			System.out.print("Pasajeros: ");
+			
+			boolean havePassenger = false;
+			for (int k = 0; k < usersBD.size(); k++) {
+				User passenger = usersBD.get(k);
+				
+				if(idAirplane == passenger.getIdPlane()) {
+					havePassenger = true;
+					break;
+				}
+			}
+			
+			if (!havePassenger) {
 				System.out.println("Ninguno");
 			}
 			else {
-				System.out.printf(" | %-12s | %-50s |\n", "ID Usuario", "Nombre");
+				System.out.printf("\n | %-12s | %-50s |\n", "ID Usuario", "Nombre");
 				for (int j = 0; j < usersBD.size(); j++) {
 					User passenger = usersBD.get(j);
 					
@@ -159,13 +168,13 @@ public class auxiliarClient {
 			double valor = (double) ufValues[4];
 			
 			System.out.println("Los valores obtenidos para la UF son:");
-			System.out.println("	Codigo: "+ codigo + "  Nombre: " + nombre);
-			System.out.println("	Fecha: " + fecha + " ");
-			System.out.println("	Unidad de Medida: " + unidad_medida + "  Valor: " + valor);
+			System.out.println("    Codigo: "+ codigo + "\n    Nombre: " + nombre);
+			System.out.println("    Fecha: " + fecha + " ");
+			System.out.println("    Unidad de Medida: " + unidad_medida + "\n    Valor: " + valor);
 		}
 	}
 	
-	public ArrayList<User> addUsers(ArrayList<User> usersBD, ArrayList<Airplane> planesBD) throws NumberFormatException, IOException{
+	public User addUsers(ArrayList<User> usersBD, ArrayList<Airplane> planesBD) throws NumberFormatException, IOException{
 		System.out.println("Agregar nuevo usuario:");
 
         System.out.print("Escriba la ID del usuario: ");
@@ -189,23 +198,21 @@ public class auxiliarClient {
         String email = br.readLine();
         
         System.out.print("Escriba el ID del vuelo: ");
-        int idAirplane = Integer.parseInt(br.readLine());
-
-        User newUser = new User(userId, name, age, email, idAirplane); // -1 indica que el usuario no tiene un avión asignado
-
-        // Agregar el nuevo usuario a la lista usersBD
-        usersBD.add(newUser);
-
-        System.out.println("Usuario agregado correctamente.");
         
-        return usersBD;
+        // Verificar si la ID del avion existe
+        int idAirplane = Integer.parseInt(br.readLine());
+        for (Airplane plane : planesBD) {
+            if (plane.getAirplaneID() == idAirplane) {
+            	System.out.println("Usuario agregado correctamente.");
+                return new User(userId, name, age, email, idAirplane);
+            }
+        }
+        
+        System.out.println("¡Error! El ID de avion ingresado no existe.");
+        return null;
 	}
 	
-	public ArrayList<User> deleteUsers(ArrayList<User> usersBD, ArrayList<Airplane> planesBD) throws NumberFormatException, IOException{
-		return null;
-	}
-	
-	public ArrayList<Airplane> addAirplane(ArrayList<Airplane> planesBD, ArrayList<User> usersBD) throws NumberFormatException, IOException{
+	public Airplane addAirplane(ArrayList<Airplane> planesBD, ArrayList<User> usersBD) throws NumberFormatException, IOException{
 		
 		System.out.println("Agregar nuevo avión:");
 
@@ -229,9 +236,6 @@ public class auxiliarClient {
         System.out.print("Escriba el número de asientos disponibles: ");
         int seats = Integer.parseInt(br.readLine());
 
-        System.out.print("Escriba el número de pasajeros: ");
-        int passengers = Integer.parseInt(br.readLine());
-
         System.out.print("Escriba la hora de despegue (YYYY-MM-DD HH:MM:SS): ");
         Timestamp takeoffTime = Timestamp.valueOf(br.readLine());
 
@@ -244,18 +248,9 @@ public class auxiliarClient {
         System.out.print("Escriba el origen: ");
         String origin = br.readLine();
 
-        Airplane newAirplane = new Airplane(planeId, namePilot, phonePilot, seats, passengers, takeoffTime, arriveTime, destination, origin);
-
-        // Agregar el nuevo avión a la lista planesBD
-        planesBD.add(newAirplane);
-
         System.out.println("Avión agregado correctamente.");
 	
-        return planesBD;
-	}
-	
-	public ArrayList<Airplane> deleteAirplane(ArrayList<Airplane> planesBD, ArrayList<User> usersBD) throws NumberFormatException, IOException{
-		return null;
+        return new Airplane(planeId, namePilot, phonePilot, seats, takeoffTime, arriveTime, destination, origin);
 	}
 	
 	/* NO IMPLEMENTADO

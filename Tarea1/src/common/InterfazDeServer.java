@@ -10,11 +10,11 @@ public interface InterfazDeServer extends Remote{
 	
 	ArrayList<User> getPeople() throws RemoteException;
 	
-	void setPeople(ArrayList<User> updateUsers) throws RemoteException;
+	void setUser(User userNew) throws RemoteException;
 	
 	ArrayList<Airplane> getAirplanes() throws RemoteException;
 	
-	public void setAirplanes(ArrayList<Airplane> updateAirplanes) throws RemoteException;
+	public void setAirplanes(Airplane newAirplane) throws RemoteException;
 
 	Object[] getUF() throws RemoteException;
 

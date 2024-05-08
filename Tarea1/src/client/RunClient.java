@@ -41,10 +41,8 @@ public class RunClient {
 			System.out.println("4. Para ver todos los usuarios.");
 			System.out.println("5. Para ver todos los aviones con sus pasajeros.");
 			System.out.println("6. Para agregar usuarios.");
-			System.out.println("7. Para eliminar usuarios.");
-			System.out.println("8. Para agregar aviones.");
-			System.out.println("9. Para eliminar aviones.");
-			System.out.println("10. Para salir.");
+			System.out.println("7. Para agregar aviones.");
+			System.out.println("8. Para salir.");
             System.out.print("Seleccione una opción: ");
             
             // Leer la opción del usuario
@@ -75,21 +73,15 @@ public class RunClient {
                 break;
             case 6:
             	// 6. Agregar Usuarios
-            	ArrayList<Airplane> updatePlane = aux.addAirplane(cliente.getAirplaneServer(), cliente.getPeopleServer());
-            	cliente.getAirplaneServer(updatePlane);
-                break;
-            case 7:
-            	// 7 Eliminar Usuarios
-                break;
-            case 8:
-            	// 6. Agregar Avion
-            	ArrayList<User> updateUsers = aux.addUsers(cliente.getPeopleServer(), cliente.getAirplaneServer());
+            	User updateUsers = aux.addUsers(cliente.getPeopleServer(), cliente.getAirplaneServer());
             	cliente.setPeopleServer(updateUsers);
                 break;
-            case 9:
-            	// Eliminar Usuarios
+            case 7:
+            	// 7. Agregar Avion
+            	Airplane updatePlane = aux.addAirplane(cliente.getAirplaneServer(), cliente.getPeopleServer());
+            	cliente.getAirplaneServer(updatePlane);
                 break;
-            case 10:
+            case 8:
             	// 8. Salir
             	salir = true;
                 aux.clearConsole();

@@ -73,7 +73,6 @@ public class ServerImpl implements InterfazDeServer {
 				// int
 				int id = results.getInt("ID_Airplane");
 				int allSeats = results.getInt("Seats");
-				int passengers = results.getInt("Passengers");
 				
 				// string
 				String nombre = results.getString("Name_Pilot");
@@ -85,8 +84,8 @@ public class ServerImpl implements InterfazDeServer {
 				Timestamp takeoff = results.getTimestamp("Takeoff_hr");
 				Timestamp arrive = results.getTimestamp("Arrive_hr");
 				
-				Airplane newAirplane = new Airplane(id, nombre,phone, allSeats, passengers,
-						 takeoff, arrive, destination, origin);
+				Airplane newAirplane = new Airplane(id, nombre,phone, allSeats,
+						 							takeoff, arrive, destination, origin);
 				
 				airplanesBD_copia.add(newAirplane);
 			}
@@ -99,7 +98,7 @@ public class ServerImpl implements InterfazDeServer {
 	    }
 	}
 	
-	public void addUsersIntoBD() {
+	public void addUsersIntoBD(User userNew) {
 	    Connection connection = null;
 	    
 	    try {
@@ -111,35 +110,32 @@ public class ServerImpl implements InterfazDeServer {
 			connection = DriverManager.getConnection(url, username, password_BD);
 	    	
 			/* INSERTAR AVIONES EN SQL */
-			 String sqlInsertUser = "INSERT INTO user (ID_User, Name, Age, Email, ID_Airplane) VALUES (?, ?, ?, ?, ?)";
-		     PreparedStatement insertUserStatement = connection.prepareStatement(sqlInsertUser);
+			String sqlInsertUser = "INSERT INTO user (ID_User, Name, Age, Email, ID_Airplane) VALUES (?, ?, ?, ?, ?)";
+		    PreparedStatement insertUserStatement = connection.prepareStatement(sqlInsertUser);
 
-		     // Iterar sobre los usuarios en la lista copia
-		     for (User user : peopleBD_copia) {
-		    	 // Verificar si el usuario ya existe en la base de datos
-		    	 boolean userNoExists = false;
-		    	 String checkIfExistsQuery = "SELECT * FROM user WHERE ID_User = ?";
-		    	 PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
-		    	 checkIfExistsStatement.setInt(1, user.getIdUser());
-		    	 ResultSet resultSet = checkIfExistsStatement.executeQuery();
+		    // Verificar si el usuario ya existe en la base de datos
+		    boolean userNoExists = false;
+		    String checkIfExistsQuery = "SELECT * FROM user WHERE ID_User = ?";
+		    PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
+		    checkIfExistsStatement.setInt(1, userNew.getIdUser());
+		    ResultSet resultSet = checkIfExistsStatement.executeQuery();
 
-		    	 if (!resultSet.next()) {
-		    		 // El usuario no existe en la base de datos
-		    		 userNoExists = true;
-		    	 }
-
-		    	 if (userNoExists) { 
-		    		 // Establecer los valores de los parámetros de la consulta
-		             insertUserStatement.setInt(1, user.getIdUser());
-		             insertUserStatement.setString(2, user.getName());
-		             insertUserStatement.setInt(3, user.getAge());
-		             insertUserStatement.setString(4, user.getEmail());
-		             insertUserStatement.setInt(5, user.getIdPlane());
-
-		             // Ejecutar la consulta para insertar el usuario
-		             insertUserStatement.executeUpdate();
-				 }
+		    if (!resultSet.next()) {
+		    	// El usuario no existe en la base de datos
+		    	userNoExists = true;
 		    }
+
+		    if (userNoExists) { 
+		    	// Establecer los valores de los parámetros de la consulta
+		        insertUserStatement.setInt(1, userNew.getIdUser());
+		        insertUserStatement.setString(2, userNew.getName());
+		        insertUserStatement.setInt(3, userNew.getAge());
+		        insertUserStatement.setString(4, userNew.getEmail());
+		        insertUserStatement.setInt(5, userNew.getIdPlane());
+
+		        // Ejecutar la consulta para insertar el usuario
+		        insertUserStatement.executeUpdate();
+			}
 	        
 			System.out.println("Actualización exitosa");
 			connection.close();
@@ -149,7 +145,7 @@ public class ServerImpl implements InterfazDeServer {
 	    }
 	}
 	
-	public void addAirplanesIntoBD() {
+	public void addAirplanesIntoBD(Airplane planeNew) {
 	    Connection connection = null;
 	    
 	    try {
@@ -161,39 +157,36 @@ public class ServerImpl implements InterfazDeServer {
 			connection = DriverManager.getConnection(url, username, password_BD);
 	        
 	        /* INSERTAR AVIONES EN SQL */
-	        String sqlInsertAirplane = "INSERT INTO airplane (ID_Airplane, Name_Pilot, Phone_Pilot, Seats, Passengers, Takeoff_hr, Arrive_hr, Destination, Origin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        String sqlInsertAirplane = "INSERT INTO airplane (ID_Airplane, Name_Pilot, Phone_Pilot, Seats, Takeoff_hr, Arrive_hr, Destination, Origin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	        PreparedStatement insertAirplaneStatement = connection.prepareStatement(sqlInsertAirplane);
 
-	        // Iterar sobre los aviones en la lista copia
-	        for (Airplane airplane : airplanesBD_copia) {
-	            // Verificar si el avión ya existe en la base de datos
-	            boolean airplaneNoExists = false;
-	            String checkIfExistsQuery = "SELECT * FROM airplane WHERE ID_Airplane = ?";
-	            PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
-	            checkIfExistsStatement.setInt(1, airplane.getAirplaneID());
-	            ResultSet resultSet = checkIfExistsStatement.executeQuery();
+	        // Verificar si el avión ya existe en la base de datos
+	        boolean airplaneNoExists = false;
+	        String checkIfExistsQuery = "SELECT * FROM airplane WHERE ID_Airplane = ?";
+	        PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
+	        checkIfExistsStatement.setInt(1, planeNew.getAirplaneID());
+	        ResultSet resultSet = checkIfExistsStatement.executeQuery();
 
-	            if (!resultSet.next()) {
-	                // El avión no existe en la base de datos
-	                airplaneNoExists = true;
-	            }
-
-	            if (airplaneNoExists) {
-	                // Establecer los valores de los parámetros de la consulta
-	                insertAirplaneStatement.setInt(1, airplane.getAirplaneID());
-	                insertAirplaneStatement.setString(2, airplane.getName_pilot());
-	                insertAirplaneStatement.setString(3, airplane.getPhone_Pilot());
-	                insertAirplaneStatement.setInt(4, airplane.getSeats());
-	                insertAirplaneStatement.setInt(5, airplane.getPassengers());
-	                insertAirplaneStatement.setTimestamp(6, airplane.getTakeoff_hr());
-	                insertAirplaneStatement.setTimestamp(7, airplane.getArrive_hr());
-	                insertAirplaneStatement.setString(8, airplane.getDestination());
-	                insertAirplaneStatement.setString(9, airplane.getOrigin());
-
-	                // Ejecutar la consulta para insertar el avión
-	                insertAirplaneStatement.executeUpdate();
-	            }
+	        if (!resultSet.next()) {
+	        	// El avión no existe en la base de datos
+	            airplaneNoExists = true;
 	        }
+
+	        if (airplaneNoExists) {
+	        	// Establecer los valores de los parámetros de la consulta
+	            insertAirplaneStatement.setInt(1, planeNew.getAirplaneID());
+	            insertAirplaneStatement.setString(2, planeNew.getName_pilot());
+	            insertAirplaneStatement.setString(3, planeNew.getPhone_Pilot());
+	            insertAirplaneStatement.setInt(4, planeNew.getSeats());
+	            insertAirplaneStatement.setTimestamp(5, planeNew.getTakeoff_hr());
+	            insertAirplaneStatement.setTimestamp(6, planeNew.getArrive_hr());
+	            insertAirplaneStatement.setString(7, planeNew.getDestination());
+	            insertAirplaneStatement.setString(8, planeNew.getOrigin());
+
+	            // Ejecutar la consulta para insertar el avión
+	            insertAirplaneStatement.executeUpdate();
+	        }
+
 	        
 			System.out.println("Actualización exitosa");
 			connection.close();
@@ -209,9 +202,9 @@ public class ServerImpl implements InterfazDeServer {
 	}
 	
 	@Override
-	public void setPeople(ArrayList<User> updateUsers) throws RemoteException{
-		this.peopleBD_copia = updateUsers;
-		addUsersIntoBD();
+	public void setUser(User userNew) throws RemoteException{
+		this.peopleBD_copia.add(userNew);
+		addUsersIntoBD(userNew);
 	}
 	
 	@Override
@@ -220,9 +213,9 @@ public class ServerImpl implements InterfazDeServer {
 	}
 	
 	@Override
-	public void setAirplanes(ArrayList<Airplane> updateAirplanes) throws RemoteException{
-		this.airplanesBD_copia = updateAirplanes;
-		addAirplanesIntoBD();
+	public void setAirplanes(Airplane newAirplane) throws RemoteException{
+		this.airplanesBD_copia.add(newAirplane);
+		addAirplanesIntoBD(newAirplane);
 	}
 
 	@Override

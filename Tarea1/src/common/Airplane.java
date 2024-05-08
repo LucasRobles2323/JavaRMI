@@ -12,21 +12,19 @@ public class Airplane implements Serializable {
     private String name_pilot;
     private String phone_Pilot;
     private int seats;
-    private int passengers;
     private Timestamp takeoff_hr;
     private Timestamp arrive_hr;
     private String destination;
     private String origin;
     
     // Constructor
-	public Airplane(int id, String name_pilot, String phone_Pilot, int seats, int passengers,
+	public Airplane(int id, String name_pilot, String phone_Pilot, int seats,
     				Timestamp takeoff_hr, Timestamp arrive_hr, 
     				String destination, String origin) {
         this.id_airplane = id;
         this.name_pilot = name_pilot;
         this.phone_Pilot = phone_Pilot;
         this.seats = seats;
-        this.passengers = passengers;
         this.takeoff_hr = takeoff_hr;
         this.arrive_hr = arrive_hr;
         this.destination = destination;
@@ -48,10 +46,6 @@ public class Airplane implements Serializable {
 
     public int getSeats() {
         return this.seats;
-    }
-    
-    public int getPassengers() {
-        return this.passengers;
     }
 
     public Timestamp getTakeoff_hr() {
@@ -85,10 +79,6 @@ public class Airplane implements Serializable {
 
     public void setseats(int seats) {
         this.seats = seats;
-    }
-    
-    public void setPassengers(int passengers) {
-        this.passengers = passengers;
     }
 
     public void setTakeoff_hr(Timestamp takeoff_hr) {
