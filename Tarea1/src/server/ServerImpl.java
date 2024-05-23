@@ -49,8 +49,8 @@ public class ServerImpl implements InterfazDeServer {
 			connection = DriverManager.getConnection(url, username, password_BD);
 	    	
 			query = connection.createStatement();
-			String sqlUser = "SELECT * FROM user";
-			String sqlAirplane = "SELECT * FROM airplane";
+			String sqlUser = "SELECT * FROM users";
+			String sqlAirplane = "SELECT * FROM airplanes";
 			
 			/* GUARDAR USUARIOS LOCALMENTE */
 			results = query.executeQuery(sqlUser);
@@ -110,12 +110,12 @@ public class ServerImpl implements InterfazDeServer {
 			connection = DriverManager.getConnection(url, username, password_BD);
 	    	
 			/* INSERTAR AVIONES EN SQL */
-			String sqlInsertUser = "INSERT INTO user (ID_User, Name, Age, Email, ID_Airplane) VALUES (?, ?, ?, ?, ?)";
+			String sqlInsertUser = "INSERT INTO users (ID_User, Name, Age, Email, ID_Airplane) VALUES (?, ?, ?, ?, ?)";
 		    PreparedStatement insertUserStatement = connection.prepareStatement(sqlInsertUser);
 
 		    // Verificar si el usuario ya existe en la base de datos
 		    boolean userNoExists = false;
-		    String checkIfExistsQuery = "SELECT * FROM user WHERE ID_User = ?";
+		    String checkIfExistsQuery = "SELECT * FROM users WHERE ID_User = ?";
 		    PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
 		    checkIfExistsStatement.setInt(1, userNew.getIdUser());
 		    ResultSet resultSet = checkIfExistsStatement.executeQuery();
@@ -157,12 +157,12 @@ public class ServerImpl implements InterfazDeServer {
 			connection = DriverManager.getConnection(url, username, password_BD);
 	        
 	        /* INSERTAR AVIONES EN SQL */
-	        String sqlInsertAirplane = "INSERT INTO airplane (ID_Airplane, Name_Pilot, Phone_Pilot, Seats, Takeoff_hr, Arrive_hr, Destination, Origin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	        String sqlInsertAirplane = "INSERT INTO airplanes (ID_Airplane, Name_Pilot, Phone_Pilot, Seats, Takeoff_hr, Arrive_hr, Destination, Origin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	        PreparedStatement insertAirplaneStatement = connection.prepareStatement(sqlInsertAirplane);
 
 	        // Verificar si el avión ya existe en la base de datos
 	        boolean airplaneNoExists = false;
-	        String checkIfExistsQuery = "SELECT * FROM airplane WHERE ID_Airplane = ?";
+	        String checkIfExistsQuery = "SELECT * FROM airplanes WHERE ID_Airplane = ?";
 	        PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
 	        checkIfExistsStatement.setInt(1, planeNew.getAirplaneID());
 	        ResultSet resultSet = checkIfExistsStatement.executeQuery();
