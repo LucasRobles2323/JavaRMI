@@ -17,6 +17,4 @@ public interface InterfazDeServer extends Remote{
 	public void setAirplanes(Airplane newAirplane) throws RemoteException;
 
 	Object[] getUF() throws RemoteException;
-
-	String getDataFromApi() throws RemoteException;
 }

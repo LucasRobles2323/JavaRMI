@@ -16,11 +16,12 @@ public class Airplane implements Serializable {
     private Timestamp arrive_hr;
     private String destination;
     private String origin;
+    private double priceUF;
     
     // Constructor
 	public Airplane(int id, String name_pilot, String phone_Pilot, int seats,
     				Timestamp takeoff_hr, Timestamp arrive_hr, 
-    				String destination, String origin) {
+    				String destination, String origin, double priceUF) {
         this.id_airplane = id;
         this.name_pilot = name_pilot;
         this.phone_Pilot = phone_Pilot;
@@ -29,6 +30,7 @@ public class Airplane implements Serializable {
         this.arrive_hr = arrive_hr;
         this.destination = destination;
         this.origin = origin;
+        this.priceUF = priceUF;
     }
 
     // Getters
@@ -63,6 +65,10 @@ public class Airplane implements Serializable {
     public String getOrigin() {
         return this.origin;
     }
+    
+    public double getPrice() {
+        return this.priceUF;
+    }
 
     // Setters
     public void setAirplaneID(int id) {
@@ -95,5 +101,9 @@ public class Airplane implements Serializable {
 
     public void setOrigin(String origin) {
         this.origin = origin;
+    }
+    
+    public void setPrice(double price) {
+        this.priceUF = price;
     }
 }

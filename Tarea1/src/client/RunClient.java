@@ -20,76 +20,111 @@ public class RunClient {
 		
 		auxiliarClient aux = new auxiliarClient();
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		Menu menu = new Menu();
 		
 		boolean salir = false;
+		boolean cambiarRol = true;
+		int rol = -1;
 		int opcion = -1;
 		
-		
 		while(!salir) {
-			if (opcion != -1) {
-				System.out.println("\n\nEspere 2 segundos ...");
-				Thread.sleep(2000); //2 segundos
-				aux.clearConsole();
-			}
-
-			System.out.println("BIENVENIDO A AEROLINEA LATAM! :)");
-			System.out.println("¿Qué quiere hacer hoy?");
-			System.out.println("1. Para obtener los valores de la UF.");
-			System.out.println("2. Para obtener datos de la API.");
-			System.out.println("3. Para ver todos los aviones.");
-			System.out.println("4. Para ver todos los usuarios.");
-			System.out.println("5. Para ver todos los aviones con sus pasajeros.");
-			System.out.println("6. Para agregar usuarios.");
-			System.out.println("7. Para agregar aviones.");
-			System.out.println("8. Para salir.");
-            System.out.print("Seleccione una opción: ");
             
-            // Leer la opción del usuario
-            opcion = Integer.parseInt(br.readLine());
-            
-            System.out.print("\n");
-			
-			switch (opcion) {
-            case 1:
-            	// 1. UF
-            	aux.displayUF(cliente.getUF());
-                break;
-            case 2:
-            	// 2. API
-            	System.out.println(cliente.getDataFromApi());
-                break;
-            case 3:
-            	// 3. Mostrar aviones
-            	aux.displayAirplanes( cliente.getAirplaneServer());
-                break;
-            case 4:
-            	// 4. Mostrar usuarios
-            	aux.displayUsers( cliente.getPeopleServer());
-                break;
-            case 5:
-            	// 5. Mostrar aviones con pasajeros
-                aux.displayAll(cliente.getAirplaneServer(), cliente.getPeopleServer());
-                break;
-            case 6:
-            	// 6. Agregar Usuarios
-            	User updateUsers = aux.addUsers(cliente.getPeopleServer(), cliente.getAirplaneServer());
-            	cliente.setPeopleServer(updateUsers);
-                break;
-            case 7:
-            	// 7. Agregar Avion
-            	Airplane updatePlane = aux.addAirplane(cliente.getAirplaneServer(), cliente.getPeopleServer());
-            	cliente.getAirplaneServer(updatePlane);
-                break;
-            case 8:
-            	// 8. Salir
-            	salir = true;
-                aux.clearConsole();
-                break;
-            default:
-                System.out.println("Opción no válida");
+			if(cambiarRol == true) 
+			{
+				// Leer el rol del operador
+	            rol = menu.displayMenu();
+	            switch (rol) {
+		            case 1:
+		            	// 1. Es Usuario
+		            	cambiarRol = false;
+		                break;
+		            case 2:
+		            	// 2. Es Administrador
+		            	cambiarRol = false;
+		                break;
+		            case 3:
+		            	// 3. Salir
+		            	salir = true;
+		                break;
+		            default:
+		                System.out.println("Opción no válida");
+	            }
+	            
+	            System.out.print("\n");
+	            aux.clearConsole();
 			}
 			
+			if(salir==true) { break;}
+			
+			if(rol == 1) // Usuario
+			{
+				menu.displayMenuUser();
+				// Leer opcion seleccionada por usuario
+	            opcion = menu.displayMenuUser();
+	            switch (opcion) {
+		            case 1:
+		            	// 1. Ver aviones
+		            	
+		                break;
+		            case 2:
+		            	// 2. Agregar Usuario
+		            	
+		                break;
+		            case 3:
+		            	// 3. Inscribirse en un vuelo.
+		            	
+		                break;
+		            case 4:
+		            	// 4. Para seleccioanr otro rol.
+		            	cambiarRol = true;
+		                break;
+		            default:
+		                System.out.println("Opción no válida");
+	            }
+	            System.out.print("\n");
+	            aux.clearConsole();
+			}
+			
+			if(rol == 2) // Administrador
+			{
+				menu.displayMenuAdmin();
+				// Leer opcion seleccionada por administrador
+	            opcion = menu.displayMenuAdmin();
+	            switch (opcion) {
+		            case 1:
+		            	// 1. Ver usuarios.
+		            	
+		                break;
+		            case 2:
+		            	// 2. Ver aviones con pasajeros.
+		            	
+		                break;
+		            case 3:
+		            	// 3. Agregar usuarios.
+		            	
+		                break;
+		            case 4:
+		            	// 4. Eliminar usuarios.
+		            	
+		                break;
+		            case 5:
+		            	// 5. Agregar aviones.
+		            	
+		                break;
+		            case 6:
+		            	// 6. Eliminar aviones.
+		            	
+		                break;
+		            case 7:
+		            	// 7. Para seleccioanr otro rol.
+		            	cambiarRol = true;
+		                break;
+		            default:
+		                System.out.println("Opción no válida");
+	            }
+	            System.out.print("\n");
+	            aux.clearConsole();
+			}
 		}
 	}
 }

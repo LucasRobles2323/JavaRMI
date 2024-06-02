@@ -58,7 +58,10 @@ public class ServerImpl implements InterfazDeServer {
 				// int
 				int id = results.getInt("ID_User");
 				int edad = results.getInt("Age");
-				int idPlane = results.getInt("ID_Airplane");
+				Integer idPlane = results.getInt("ID_Airplane");
+	            if (results.wasNull()) {
+	                idPlane = 0;  // Set to 0 if the value is NULL
+	            }
 				// string
 				String nombre = results.getString("Name");
 				String email = results.getString("Email");
@@ -84,8 +87,11 @@ public class ServerImpl implements InterfazDeServer {
 				Timestamp takeoff = results.getTimestamp("Takeoff_hr");
 				Timestamp arrive = results.getTimestamp("Arrive_hr");
 				
+				// double
+	            double price = results.getDouble("Cost");
+				
 				Airplane newAirplane = new Airplane(id, nombre,phone, allSeats,
-						 							takeoff, arrive, destination, origin);
+						 							takeoff, arrive, destination, origin, price);
 				
 				airplanesBD_copia.add(newAirplane);
 			}
@@ -109,7 +115,7 @@ public class ServerImpl implements InterfazDeServer {
 			
 			connection = DriverManager.getConnection(url, username, password_BD);
 	    	
-			/* INSERTAR AVIONES EN SQL */
+			/* INSERTAR USUARIOS EN SQL */
 			String sqlInsertUser = "INSERT INTO users (ID_User, Name, Age, Email, ID_Airplane) VALUES (?, ?, ?, ?, ?)";
 		    PreparedStatement insertUserStatement = connection.prepareStatement(sqlInsertUser);
 
@@ -131,7 +137,12 @@ public class ServerImpl implements InterfazDeServer {
 		        insertUserStatement.setString(2, userNew.getName());
 		        insertUserStatement.setInt(3, userNew.getAge());
 		        insertUserStatement.setString(4, userNew.getEmail());
-		        insertUserStatement.setInt(5, userNew.getIdPlane());
+		        // Verificar el valor de ID_Airplane
+	            if (userNew.getIdPlane() < 1) {
+	                insertUserStatement.setNull(5, java.sql.Types.INTEGER);
+	            } else {
+	                insertUserStatement.setInt(5, userNew.getIdPlane());
+	            }
 
 		        // Ejecutar la consulta para insertar el usuario
 		        insertUserStatement.executeUpdate();
@@ -157,7 +168,7 @@ public class ServerImpl implements InterfazDeServer {
 			connection = DriverManager.getConnection(url, username, password_BD);
 	        
 	        /* INSERTAR AVIONES EN SQL */
-	        String sqlInsertAirplane = "INSERT INTO airplanes (ID_Airplane, Name_Pilot, Phone_Pilot, Seats, Takeoff_hr, Arrive_hr, Destination, Origin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			String sqlInsertAirplane = "INSERT INTO airplanes (ID_Airplane, Name_Pilot, Phone_Pilot, Seats, Takeoff_hr, Arrive_hr, Destination, Origin, Cost) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	        PreparedStatement insertAirplaneStatement = connection.prepareStatement(sqlInsertAirplane);
 
 	        // Verificar si el avión ya existe en la base de datos
@@ -182,11 +193,11 @@ public class ServerImpl implements InterfazDeServer {
 	            insertAirplaneStatement.setTimestamp(6, planeNew.getArrive_hr());
 	            insertAirplaneStatement.setString(7, planeNew.getDestination());
 	            insertAirplaneStatement.setString(8, planeNew.getOrigin());
+	            insertAirplaneStatement.setDouble(9, planeNew.getPrice());
 
 	            // Ejecutar la consulta para insertar el avión
 	            insertAirplaneStatement.executeUpdate();
 	        }
-
 	        
 			System.out.println("Actualización exitosa");
 			connection.close();
@@ -276,47 +287,5 @@ public class ServerImpl implements InterfazDeServer {
 		}
 		
 		return null;
-	}
-
-	@Override
-	public String getDataFromApi() throws RemoteException{
-		String output = null;
-		 
-		try {
-            // URL de la API REST, el listado de APIs públicas está en: 
-			// https://github.com/juanbrujo/listado-apis-publicas-en-chile
-            URL apiUrl = new URL("https://mindicador.cl/api");
-
-            // Abre la conexión HTTP
-            HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
-
-            // Configura la solicitud (método GET en este ejemplo)
-            connection.setRequestMethod("GET");
-
-            // Obtiene el código de respuesta
-            int responseCode = connection.getResponseCode();
-
-            // Procesa la respuesta si es exitosa
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Lee la respuesta del servidor
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-
-                // Cierra la conexión y muestra la respuesta
-                in.close();
-                output = response.toString();
-            } else {
-                System.out.println("Error al conectar a la API. Código de respuesta: " + responseCode);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		//Como resultado tenemos un String output que contiene el JSON de la respuesta de la API
-		return output;
 	}
 }
