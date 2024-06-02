@@ -174,7 +174,7 @@ public class auxiliarClient {
 		}
 	}
 	
-	public User addUsers(ArrayList<User> usersBD, ArrayList<Airplane> planesBD) throws NumberFormatException, IOException{
+	public User addUsers(ArrayList<User> usersBD) throws NumberFormatException, IOException{
 		System.out.println("Agregar nuevo usuario:");
 
         System.out.print("Escriba la ID del usuario: ");
@@ -197,19 +197,7 @@ public class auxiliarClient {
         System.out.print("Escriba el correo electrónico: ");
         String email = br.readLine();
         
-        System.out.print("Escriba el ID del vuelo: ");
-        
-        // Verificar si la ID del avion existe
-        int idAirplane = Integer.parseInt(br.readLine());
-        for (Airplane plane : planesBD) {
-            if (plane.getAirplaneID() == idAirplane) {
-            	System.out.println("Usuario agregado correctamente.");
-                return new User(userId, name, age, email, idAirplane);
-            }
-        }
-        
-        System.out.println("¡Error! El ID de avion ingresado no existe.");
-        return null;
+        return new User(userId, name, age, email, 0);
 	}
 	
 	public Airplane addAirplane(ArrayList<Airplane> planesBD, ArrayList<User> usersBD) throws NumberFormatException, IOException{

@@ -18,7 +18,9 @@ public class RunClient {
 		
 		cliente.startClient();
 		
-		auxiliarClient aux = new auxiliarClient();
+		Display display = new Display();
+		
+		PriceFlight prices = new PriceFlight (cliente.getUF());
 		
 		Menu menu = new Menu();
 		
@@ -51,7 +53,7 @@ public class RunClient {
 	            }
 	            
 	            System.out.print("\n");
-	            aux.clearConsole();
+	            display.clearConsole();
 			}
 			
 			if(salir==true) { break;}
@@ -82,7 +84,7 @@ public class RunClient {
 		                System.out.println("Opción no válida");
 	            }
 	            System.out.print("\n");
-	            aux.clearConsole();
+	            display.clearConsole();
 			}
 			
 			if(rol == 2) // Administrador
@@ -123,7 +125,7 @@ public class RunClient {
 		                System.out.println("Opción no válida");
 	            }
 	            System.out.print("\n");
-	            aux.clearConsole();
+	            display.clearConsole();
 			}
 		}
 	}
