@@ -1,4 +1,4 @@
-package client;
+package common;
 
 public class PriceFlight {
 	private double oneUF;
@@ -17,11 +17,6 @@ public class PriceFlight {
 			String unidad_medida = (String) ufValues[3];
 			double valor = (double) ufValues[4];
 			this.oneUF = valor;
-			
-			System.out.println("Los valores obtenidos para la UF son:");
-			System.out.println("    Codigo: "+ codigo + "\n    Nombre: " + nombre);
-			System.out.println("    Fecha: " + fecha + " ");
-			System.out.println("    Unidad de Medida: " + unidad_medida + "\n    Valor: " + valor);
 		}
 	}
 	

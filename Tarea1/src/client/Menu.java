@@ -50,12 +50,14 @@ public class Menu {
 		System.out.println("BIENVENIDO ADMINISTRADOR");
 		System.out.println("¿Qué desea hacer hoy?");
 		System.out.println("1. Para ver todos los usuarios.");
-		System.out.println("2. Para ver todos los aviones con sus pasajeros.");
-		System.out.println("3. Para agregar usuarios.");
-		System.out.println("4. Eliminar usuarios.");
-		System.out.println("5. Para agregar aviones.");
-		System.out.println("6. Eliminar aviones.");
-		System.out.println("7. Para seleccioanr otro rol.");
+		System.out.println("2. Para ver todos los aviones con sus precios en UF.");
+		System.out.println("3. Para ver todos los aviones con sus precios en Pesos Chilenos.");
+		System.out.println("4. Para agregar Usuario.");
+		System.out.println("5. Para mostrar Usuario.");
+		System.out.println("6. Para modificar Usuario.");
+		System.out.println("7. Para inscribir en vuelo a Usuario.");
+		System.out.println("8. Para eliminar Usuario.");
+		System.out.println("9. Para seleccioanr otro rol.");
         System.out.print("Seleccione una opción: ");
         
         // Leer la opción del usuario

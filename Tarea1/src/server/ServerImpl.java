@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -27,7 +28,9 @@ import common.User;
 
 public class ServerImpl implements InterfazDeServer {
 	
-	public ServerImpl() throws RemoteException {
+	private final ReentrantLock lock = new ReentrantLock();
+	
+	public ServerImpl() throws RemoteException, SQLException {
 		startBD();
 		UnicastRemoteObject.exportObject(this, 0);
 	}
@@ -35,19 +38,18 @@ public class ServerImpl implements InterfazDeServer {
 	private ArrayList<User> peopleBD_copia = new ArrayList<>();
 	private ArrayList<Airplane> airplanesBD_copia = new ArrayList<>();
 	
-	public void startBD() {
+	public void startBD() throws SQLException {
 	    Connection connection = null;
 	    Statement query = null;
 	    ResultSet results = null;
 	    
+	    String url = "jdbc:mysql://localhost:3306/aeroline";
+		String username = "root";
+		String password_BD = "";
+		
+		connection = DriverManager.getConnection(url, username, password_BD);
+	    
 	    try {
-	    	String url = "jdbc:mysql://localhost:3306/aeroline";
-			String username = "root";
-			String password_BD = "";
-			
-			
-			connection = DriverManager.getConnection(url, username, password_BD);
-	    	
 			query = connection.createStatement();
 			String sqlUser = "SELECT * FROM users";
 			String sqlAirplane = "SELECT * FROM airplanes";
@@ -95,117 +97,220 @@ public class ServerImpl implements InterfazDeServer {
 				
 				airplanesBD_copia.add(newAirplane);
 			}
-			
-			System.out.println("Conexion exitosa");
-			connection.close();
-	    }catch(SQLException e){
-	    	e.printStackTrace();
-	    	System.out.println("No se pudo conectar a la Base de Datos");
+	    } finally {
+	        if (results != null) {
+	            results.close();
+	        }
+	        if (query != null) {
+	            query.close();
+	        }
+	        if (connection != null) {
+	            connection.close();
+	        }
 	    }
 	}
+
+	private void requestMutex() {
+        lock.lock();
+        System.out.println("Mutex adquirido. Procesando la operación...");
+    }
+
+    private void releaseMutex() {
+        lock.unlock();
+        System.out.println("Mutex liberado. Operación completada.");
+    }
 	
-	public void addUsersIntoBD(User userNew) {
+	@Override
+	public void insertUser(User userNew) throws RemoteException {
+		requestMutex();
 	    Connection connection = null;
-	    
 	    try {
-	    	String url = "jdbc:mysql://localhost:3306/aeroline";
-			String username = "root";
-			String password_BD = "";
-			
-			
-			connection = DriverManager.getConnection(url, username, password_BD);
-	    	
-			/* INSERTAR USUARIOS EN SQL */
-			String sqlInsertUser = "INSERT INTO users (ID_User, Name, Age, Email, ID_Airplane) VALUES (?, ?, ?, ?, ?)";
-		    PreparedStatement insertUserStatement = connection.prepareStatement(sqlInsertUser);
+	        String url = "jdbc:mysql://localhost:3306/aeroline";
+	        String username = "root";
+	        String password_BD = "";
 
-		    // Verificar si el usuario ya existe en la base de datos
-		    boolean userNoExists = false;
-		    String checkIfExistsQuery = "SELECT * FROM users WHERE ID_User = ?";
-		    PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
-		    checkIfExistsStatement.setInt(1, userNew.getIdUser());
-		    ResultSet resultSet = checkIfExistsStatement.executeQuery();
+	        connection = DriverManager.getConnection(url, username, password_BD);
 
-		    if (!resultSet.next()) {
-		    	// El usuario no existe en la base de datos
-		    	userNoExists = true;
-		    }
+	        /* INSERTAR USUARIOS EN SQL */
+	        String sqlInsertUser = "INSERT INTO users (ID_User, Name, Age, Email, ID_Airplane) VALUES (?, ?, ?, ?, ?)";
+	        PreparedStatement insertUserStatement = connection.prepareStatement(sqlInsertUser);
 
-		    if (userNoExists) { 
-		    	// Establecer los valores de los parámetros de la consulta
-		        insertUserStatement.setInt(1, userNew.getIdUser());
-		        insertUserStatement.setString(2, userNew.getName());
-		        insertUserStatement.setInt(3, userNew.getAge());
-		        insertUserStatement.setString(4, userNew.getEmail());
-		        // Verificar el valor de ID_Airplane
+	        // Verificar si el usuario ya existe en la base de datos
+	        boolean userNoExists = false;
+	        String checkIfExistsQuery = "SELECT * FROM users WHERE ID_User = ?";
+	        PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
+	        checkIfExistsStatement.setInt(1, userNew.getIdUser());
+	        ResultSet resultSet = checkIfExistsStatement.executeQuery();
+
+	        if (!resultSet.next()) {
+	            // El usuario no existe en la base de datos
+	            userNoExists = true;
+	        }
+
+	        if (userNoExists) {
+	            // Establecer los valores de los parámetros de la consulta
+	            insertUserStatement.setInt(1, userNew.getIdUser());
+	            insertUserStatement.setString(2, userNew.getName());
+	            insertUserStatement.setInt(3, userNew.getAge());
+	            insertUserStatement.setString(4, userNew.getEmail());
 	            if (userNew.getIdPlane() < 1) {
 	                insertUserStatement.setNull(5, java.sql.Types.INTEGER);
 	            } else {
 	                insertUserStatement.setInt(5, userNew.getIdPlane());
 	            }
 
-		        // Ejecutar la consulta para insertar el usuario
-		        insertUserStatement.executeUpdate();
-			}
-	        
-			System.out.println("Actualización exitosa");
-			connection.close();
-	    }catch(SQLException e){
-	    	e.printStackTrace();
-	    	System.out.println("No se pudo conectar a la Base de Datos");
+	            // Ejecutar la consulta para insertar el usuario
+	            insertUserStatement.executeUpdate();
+	            peopleBD_copia.add(userNew);
+	            System.out.println("Usuario insertado correctamente");
+	        }
+	        else
+	        {
+	        	System.out.println("Usuario ya existe en la Base de Datos");
+	        }
+
+	        connection.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("No se pudo conectar a la Base de Datos");
+	    } finally {
+	    	releaseMutex();
 	    }
 	}
 	
-	public void addAirplanesIntoBD(Airplane planeNew) {
-	    Connection connection = null;
-	    
+	@Override
+	public void updateUser(User updatedUser) throws RemoteException {
+		requestMutex();
 	    try {
-	    	String url = "jdbc:mysql://localhost:3306/aeroline";
-			String username = "root";
-			String password_BD = "";
-			
-			
-			connection = DriverManager.getConnection(url, username, password_BD);
-	        
-	        /* INSERTAR AVIONES EN SQL */
-			String sqlInsertAirplane = "INSERT INTO airplanes (ID_Airplane, Name_Pilot, Phone_Pilot, Seats, Takeoff_hr, Arrive_hr, Destination, Origin, Cost) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	        PreparedStatement insertAirplaneStatement = connection.prepareStatement(sqlInsertAirplane);
+	        Connection connection = null;
+	        try {
+	            String url = "jdbc:mysql://localhost:3306/aeroline";
+	            String username = "root";
+	            String password_BD = "";
 
-	        // Verificar si el avión ya existe en la base de datos
-	        boolean airplaneNoExists = false;
-	        String checkIfExistsQuery = "SELECT * FROM airplanes WHERE ID_Airplane = ?";
-	        PreparedStatement checkIfExistsStatement = connection.prepareStatement(checkIfExistsQuery);
-	        checkIfExistsStatement.setInt(1, planeNew.getAirplaneID());
-	        ResultSet resultSet = checkIfExistsStatement.executeQuery();
+	            connection = DriverManager.getConnection(url, username, password_BD);
+	            
+	            // Verificar si el usuario existe
+	            String checkUserExistsQuery = "SELECT COUNT(*) FROM users WHERE ID_User = ?";
+	            PreparedStatement checkUserExistsStatement = connection.prepareStatement(checkUserExistsQuery);
+	            checkUserExistsStatement.setInt(1, updatedUser.getIdUser());
+	            ResultSet resultSet = checkUserExistsStatement.executeQuery();
+	            resultSet.next();
+	            int userCount = resultSet.getInt(1);
 
-	        if (!resultSet.next()) {
-	        	// El avión no existe en la base de datos
-	            airplaneNoExists = true;
+	            if (userCount == 0) {
+	                System.out.println("Usuario no existe en la Base de Datos");
+	                return;
+	            }
+
+	            String sqlUpdateUser = "UPDATE users SET Name = ?, Age = ?, Email = ?, ID_Airplane = ? WHERE ID_User = ?";
+	            PreparedStatement updateUserStatement = connection.prepareStatement(sqlUpdateUser);
+	            updateUserStatement.setString(1, updatedUser.getName());
+	            updateUserStatement.setInt(2, updatedUser.getAge());
+	            updateUserStatement.setString(3, updatedUser.getEmail());
+	            if (updatedUser.getIdPlane() < 1) {
+	                updateUserStatement.setNull(4, java.sql.Types.INTEGER);
+	            } else {
+	                updateUserStatement.setInt(4, updatedUser.getIdPlane());
+	            }
+	            updateUserStatement.setInt(5, updatedUser.getIdUser());
+
+	            updateUserStatement.executeUpdate();
+
+	            for (User user : peopleBD_copia) {
+	                if (user.getIdUser() == updatedUser.getIdUser()) {
+	                    user.setName(updatedUser.getName());
+	                    user.setAge(updatedUser.getAge());
+	                    user.setEmail(updatedUser.getEmail());
+	                    user.setIdPlane(updatedUser.getIdPlane());
+	                    break;
+	                }
+	            }
+
+	            System.out.println("Usuario actualizado correctamente");
+	            connection.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            System.out.println("No se pudo conectar a la Base de Datos");
 	        }
-
-	        if (airplaneNoExists) {
-	        	// Establecer los valores de los parámetros de la consulta
-	            insertAirplaneStatement.setInt(1, planeNew.getAirplaneID());
-	            insertAirplaneStatement.setString(2, planeNew.getName_pilot());
-	            insertAirplaneStatement.setString(3, planeNew.getPhone_Pilot());
-	            insertAirplaneStatement.setInt(4, planeNew.getSeats());
-	            insertAirplaneStatement.setTimestamp(5, planeNew.getTakeoff_hr());
-	            insertAirplaneStatement.setTimestamp(6, planeNew.getArrive_hr());
-	            insertAirplaneStatement.setString(7, planeNew.getDestination());
-	            insertAirplaneStatement.setString(8, planeNew.getOrigin());
-	            insertAirplaneStatement.setDouble(9, planeNew.getPrice());
-
-	            // Ejecutar la consulta para insertar el avión
-	            insertAirplaneStatement.executeUpdate();
-	        }
-	        
-			System.out.println("Actualización exitosa");
-			connection.close();
-	    }catch(SQLException e){
-	    	e.printStackTrace();
-	    	System.out.println("No se pudo conectar a la Base de Datos");
+	    } finally {
+	    	releaseMutex();
 	    }
 	}
+	
+	@Override
+	public User selectUser(int idUser) throws RemoteException {
+		requestMutex();
+	    try {
+	        Connection connection = null;
+	        User selectedUser = null;
+	        try {
+	            String url = "jdbc:mysql://localhost:3306/aeroline";
+	            String username = "root";
+	            String password_BD = "";
+
+	            connection = DriverManager.getConnection(url, username, password_BD);
+
+	            String sqlSelectUser = "SELECT * FROM users WHERE ID_User = ?";
+	            PreparedStatement selectUserStatement = connection.prepareStatement(sqlSelectUser);
+	            selectUserStatement.setInt(1, idUser);
+	            ResultSet resultSet = selectUserStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	                int id = resultSet.getInt("ID_User");
+	                String name = resultSet.getString("Name");
+	                int age = resultSet.getInt("Age");
+	                String email = resultSet.getString("Email");
+	                Integer idPlane = resultSet.getInt("ID_Airplane");
+	                if (resultSet.wasNull()) {
+	                    idPlane = 0;  // Set to 0 if the value is NULL
+	                }
+
+	                selectedUser = new User(id, name, age, email, idPlane);
+	            }
+
+	            connection.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            System.out.println("No se pudo conectar a la Base de Datos");
+	        }
+	        return selectedUser;
+	    } finally {
+	    	releaseMutex();
+	    }
+	}
+	
+	@Override
+	public void deleteUser(int idUser) throws RemoteException {
+		requestMutex();
+	    try {
+	        Connection connection = null;
+	        try {
+	            String url = "jdbc:mysql://localhost:3306/aeroline";
+	            String username = "root";
+	            String password_BD = "";
+
+	            connection = DriverManager.getConnection(url, username, password_BD);
+
+	            String sqlDeleteUser = "DELETE FROM users WHERE ID_User = ?";
+	            PreparedStatement deleteUserStatement = connection.prepareStatement(sqlDeleteUser);
+	            deleteUserStatement.setInt(1, idUser);
+
+	            deleteUserStatement.executeUpdate();
+
+	            peopleBD_copia.removeIf(user -> user.getIdUser() == idUser);
+
+	            System.out.println("Usuario eliminado correctamente");
+	            connection.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            System.out.println("No se pudo conectar a la Base de Datos");
+	        }
+	    } finally {
+	    	releaseMutex();
+	    }
+	}
+
 	
 	@Override
 	public ArrayList<User> getPeople() throws RemoteException {
@@ -213,20 +318,8 @@ public class ServerImpl implements InterfazDeServer {
 	}
 	
 	@Override
-	public void setUser(User userNew) throws RemoteException{
-		this.peopleBD_copia.add(userNew);
-		addUsersIntoBD(userNew);
-	}
-	
-	@Override
 	public ArrayList<Airplane> getAirplanes() throws RemoteException {
 		return airplanesBD_copia;
-	}
-	
-	@Override
-	public void setAirplanes(Airplane newAirplane) throws RemoteException{
-		this.airplanesBD_copia.add(newAirplane);
-		addAirplanesIntoBD(newAirplane);
 	}
 
 	@Override

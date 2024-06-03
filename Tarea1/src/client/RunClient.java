@@ -9,16 +9,14 @@ import java.util.ArrayList;
 
 import common.Airplane;
 import common.InterfazDeServer;
+import common.PriceFlight;
 import common.User;
 
 public class RunClient {
 	
 	public static void main(String[] args) throws  NotBoundException, IOException, InterruptedException {
 		Client cliente = new Client();
-		
-		cliente.startClient();
-		
-		Display display = new Display();
+		Display.clearConsole();
 		
 		PriceFlight prices = new PriceFlight (cliente.getUF());
 		
@@ -53,28 +51,27 @@ public class RunClient {
 	            }
 	            
 	            System.out.print("\n");
-	            display.clearConsole();
+	            Display.clearConsole();
 			}
 			
 			if(salir==true) { break;}
 			
 			if(rol == 1) // Usuario
 			{
-				menu.displayMenuUser();
 				// Leer opcion seleccionada por usuario
 	            opcion = menu.displayMenuUser();
 	            switch (opcion) {
 		            case 1:
 		            	// 1. Ver aviones
-		            	
+		            	Display.noImplement();
 		                break;
 		            case 2:
 		            	// 2. Agregar Usuario
-		            	
+		            	Display.noImplement();
 		                break;
 		            case 3:
 		            	// 3. Inscribirse en un vuelo.
-		            	
+		            	Display.noImplement();
 		                break;
 		            case 4:
 		            	// 4. Para seleccioanr otro rol.
@@ -84,48 +81,55 @@ public class RunClient {
 		                System.out.println("Opción no válida");
 	            }
 	            System.out.print("\n");
-	            display.clearConsole();
+	            Display.clearConsole();
 			}
 			
 			if(rol == 2) // Administrador
 			{
-				menu.displayMenuAdmin();
 				// Leer opcion seleccionada por administrador
 	            opcion = menu.displayMenuAdmin();
 	            switch (opcion) {
 		            case 1:
 		            	// 1. Ver usuarios.
-		            	
+		            	Display.noImplement();
 		                break;
 		            case 2:
-		            	// 2. Ver aviones con pasajeros.
-		            	
+		            	// 2. Ver aviones con precio UF.
+		            	Display.noImplement();
 		                break;
 		            case 3:
-		            	// 3. Agregar usuarios.
-		            	
+		            	// 3. Ver aviones con precio en Pesos Chilenos.
+		            	Display.noImplement();
 		                break;
 		            case 4:
-		            	// 4. Eliminar usuarios.
-		            	
+		            	// 4. Agregar Usuario.
+		            	Display.noImplement();
 		                break;
 		            case 5:
-		            	// 5. Agregar aviones.
-		            	
+		            	// 5. Mostrar Usuario.
+		            	Display.noImplement();
 		                break;
 		            case 6:
-		            	// 6. Eliminar aviones.
-		            	
+		            	// 6. Modificar Usuario.
+		            	Display.noImplement();
 		                break;
 		            case 7:
-		            	// 7. Para seleccioanr otro rol.
+		            	// 5. Inscribir en Vuelo a Usuario.
+		            	Display.noImplement();
+		                break;
+		            case 8:
+		            	// 5. Eliminar Usuario.
+		            	Display.noImplement();
+		                break;
+		            case 9:
+		            	// 9. Para seleccioanr otro rol.
 		            	cambiarRol = true;
 		                break;
 		            default:
 		                System.out.println("Opción no válida");
 	            }
 	            System.out.print("\n");
-	            display.clearConsole();
+	            Display.clearConsole();
 			}
 		}
 	}

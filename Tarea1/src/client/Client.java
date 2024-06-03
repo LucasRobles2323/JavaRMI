@@ -13,12 +13,32 @@ import common.User;
 public class Client {
 	private InterfazDeServer server;
 	
-	public Client() {}
+	public Client() throws RemoteException, NotBoundException {
+		startClient();
+	}
 	
 	public void startClient() throws RemoteException, NotBoundException {
-		Registry registry = LocateRegistry.getRegistry("localhost", 4344);
-		server = (InterfazDeServer) registry.lookup("serverDePersonas");
-	}
+        try {
+            Registry registry = LocateRegistry.getRegistry("localhost", 4344);
+            server = (InterfazDeServer) registry.lookup("serverAerolinea");
+            System.out.println("Conectado al servidor principal.");
+        } catch (RemoteException | NotBoundException e) {
+            System.err.println("Error al conectar con el servidor principal: " + e.getMessage());
+            System.out.println("Intentando conectar con el servidor de respaldo...");
+            cambiarAServerRespaldo();
+        }
+    }
+
+    public void cambiarAServerRespaldo() throws RemoteException, NotBoundException {
+        try {
+            Registry registry = LocateRegistry.getRegistry("localhost", 4345);
+            server = (InterfazDeServer) registry.lookup("serverAerolineaRespaldo");
+            System.out.println("Conectado al servidor de respaldo.");
+        } catch (RemoteException | NotBoundException e) {
+            System.err.println("Error al conectar con el servidor de respaldo: " + e.getMessage());
+            throw e;
+        }
+    }
 	
 	Object[] getUF() throws RemoteException {
 		return server.getUF();
@@ -28,20 +48,40 @@ public class Client {
 		return server.getPeople();
 	}
 	
-	public void setPeopleServer(User updateUsers) throws RemoteException {
-		if(updateUsers != null) {
-			server.setUser(updateUsers);
-		}
-	}
-	
 	public ArrayList<Airplane> getAirplaneServer() throws RemoteException {
 		return server.getAirplanes();
 	}
 	
-	public void getAirplaneServer(Airplane updatedPlanes) throws RemoteException {
-		if(updatedPlanes != null) {
-			server.setAirplanes(updatedPlanes);
-		}
-	}
+	public void insertUser(User user) {
+        try {
+            server.insertUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public User selectUser(int id) {
+        try {
+            return server.selectUser(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateUser(User user) {
+        try {
+            server.updateUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUser(int id) {
+        try {
+            server.deleteUser(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

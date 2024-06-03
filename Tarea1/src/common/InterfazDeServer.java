@@ -9,12 +9,12 @@ import common.User;
 public interface InterfazDeServer extends Remote{
 	
 	ArrayList<User> getPeople() throws RemoteException;
-	
-	void setUser(User userNew) throws RemoteException;
-	
 	ArrayList<Airplane> getAirplanes() throws RemoteException;
 	
-	public void setAirplanes(Airplane newAirplane) throws RemoteException;
+	void insertUser(User userNew) throws RemoteException;
+    User selectUser(int idUser) throws RemoteException;
+    void updateUser(User updatedUser) throws RemoteException;
+    void deleteUser(int idUser) throws RemoteException;
 
 	Object[] getUF() throws RemoteException;
 }
