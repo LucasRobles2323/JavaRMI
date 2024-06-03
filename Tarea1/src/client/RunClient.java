@@ -50,6 +50,7 @@ public class RunClient {
 		                break;
 		            default:
 		                System.out.println("Opción no válida");
+		                break;
 	            }
 	            
 	            System.out.print("\n");
@@ -81,6 +82,7 @@ public class RunClient {
 		                break;
 		            default:
 		                System.out.println("Opción no válida");
+		                break;
 	            }
 	            System.out.print("\n");
 	            Display.clearConsole();
@@ -90,7 +92,8 @@ public class RunClient {
 			{
 				// Leer opcion seleccionada por administrador
 	            opcion = menu.displayMenuAdmin();
-	            switch (opcion) {
+	            try {
+	            	switch (opcion) {
 		            case 1:
 		            	// 1. Ver usuarios.
 		            	Display.users( cliente.getPeopleServer() );
@@ -140,7 +143,14 @@ public class RunClient {
 		                break;
 		            default:
 		                System.out.println("Opción no válida");
+		                break;
 	            }
+	            }catch(Exception e){
+	            	System.out.println("Problema con el servidor.");
+	            	System.out.println("Reiniciando el servidor.");
+	            	cliente = new Client();
+	            }
+	            
 	            System.out.print("\n");
 	            Display.clearConsole();
 			}
