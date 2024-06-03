@@ -26,6 +26,8 @@ public class RunClient {
 		boolean cambiarRol = true;
 		int rol = -1;
 		int opcion = -1;
+		User usuarioAux;
+		int usuarioIndexAux;
 		
 		while(!salir) {
             
@@ -91,35 +93,46 @@ public class RunClient {
 	            switch (opcion) {
 		            case 1:
 		            	// 1. Ver usuarios.
-		            	Display.noImplement();
+		            	Display.users( cliente.getPeopleServer() );
 		                break;
 		            case 2:
 		            	// 2. Ver aviones con precio UF.
-		            	Display.noImplement();
+		            	Display.airplanesUF( cliente.getAirplaneServer(), cliente.getPeopleServer() );
 		                break;
 		            case 3:
 		            	// 3. Ver aviones con precio en Pesos Chilenos.
-		            	Display.noImplement();
+		            	Display.airplanesCLP( cliente.getAirplaneServer(), 
+		            						  cliente.getPeopleServer(), prices);
 		                break;
 		            case 4:
 		            	// 4. Agregar Usuario.
-		            	Display.noImplement();
+		            	usuarioAux = EditData.insertUsers();
+		            	cliente.insertUser(usuarioAux);
 		                break;
 		            case 5:
 		            	// 5. Mostrar Usuario.
-		            	Display.noImplement();
+		            	usuarioIndexAux = EditData.selectUser();
+		            	usuarioAux = cliente.selectUser(usuarioIndexAux);
+		            	Display.oneUser(usuarioAux);
 		                break;
 		            case 6:
 		            	// 6. Modificar Usuario.
-		            	Display.noImplement();
+		            	usuarioIndexAux = EditData.selectUser();
+		            	usuarioAux = cliente.selectUser(usuarioIndexAux);
+		            	usuarioAux = EditData.updateUser(usuarioAux);
+		            	cliente.updateUser(usuarioAux);
 		                break;
 		            case 7:
 		            	// 5. Inscribir en Vuelo a Usuario.
-		            	Display.noImplement();
+		            	usuarioIndexAux = EditData.selectUser();
+		            	usuarioAux = cliente.selectUser(usuarioIndexAux);
+		            	usuarioAux = EditData.updateFlightUser(usuarioAux);
+		            	cliente.updateUser(usuarioAux);
 		                break;
 		            case 8:
-		            	// 5. Eliminar Usuario.
-		            	Display.noImplement();
+		            	// 5. Mostrar Usuario.
+		            	usuarioIndexAux = EditData.selectUser();
+		            	cliente.deleteUser(usuarioIndexAux);
 		                break;
 		            case 9:
 		            	// 9. Para seleccioanr otro rol.
