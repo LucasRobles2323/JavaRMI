@@ -116,7 +116,12 @@ public class RunClient {
 		            	// 5. Mostrar Usuario.
 		            	usuarioIndexAux = EditData.selectUser();
 		            	usuarioAux = cliente.selectUser(usuarioIndexAux);
-		            	Display.oneUser(usuarioAux);
+		            	if (usuarioIndexAux != 0) {
+		            		Display.oneUser(usuarioAux);
+		            	}
+		            	else {
+		            		 System.out.println("El usuario con ID " + usuarioAux + " no existe.");
+		            	}
 		                break;
 		            case 6:
 		            	// 6. Modificar Usuario.

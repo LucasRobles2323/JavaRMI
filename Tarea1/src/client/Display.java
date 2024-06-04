@@ -8,8 +8,9 @@ import common.PriceFlight;
 import common.User;
 
 public class Display {	
-	
+
 	public Display() {}
+	
 	
 	public static void stopSeconds(int seconds) throws InterruptedException {
 		Thread.sleep(seconds); //seconds segundos
@@ -71,6 +72,7 @@ public class Display {
 			String nombre, phone, destino, origen;
 			int idAirplane, seats;
 			Timestamp takeoff, arrive;
+			double price;
 			
 			// int
 			idAirplane = plane.getAirplaneID();
@@ -81,10 +83,14 @@ public class Display {
 			phone = plane.getPhone_Pilot();
 			destino = plane.getDestination();
 			origen = plane.getOrigin();
+	
 			
 			// Timestamp
 			takeoff = plane.getTakeoff_hr();
 			arrive = plane.getArrive_hr();
+			
+			//double
+			price = plane.getPrice();
 			
 			System.out.println("ID Avion: "+ idAirplane);
 			System.out.println("Piloto:\tNombre: " + nombre + "\t Telefono: " + phone);
@@ -101,6 +107,90 @@ public class Display {
 					break;
 				}
 			}
+			
+			
+			
+			
+			if (!havePassenger) {
+				System.out.println("No tiene ningun pasajero asignado.");
+			}
+			else {
+				System.out.printf("\n | %-12s | %-50s |\n", "ID Usuario", "Nombre");
+				for (int j = 0; j < usersBD.size(); j++) {
+					User passenger = usersBD.get(j);
+					
+					if(idAirplane == passenger.getIdPlane()) {
+						String name;
+						int userID;
+						// int
+						userID = passenger.getIdUser();
+						// string
+						name = passenger.getName();
+						
+						
+						System.out.printf(" | %-12d | %-50s |\n", userID, name);
+					}
+				}
+			}
+			System.out.println("Origen: "+ origen + "\t Salida: " + takeoff);
+			System.out.println("Destino: "+ destino + "\t Llegada: " + arrive);
+			System.out.println("Precio: "+ price + " UF");
+			
+			System.out.println("*******************************************");
+		}
+		
+		
+			
+	}	
+	
+	public static void airplanesCLP(ArrayList<Airplane> planesBD, ArrayList<User> usersBD, 
+									PriceFlight prices) {
+		System.out.println("\nAVIONES\n");
+		System.out.println("\n*******************************************");
+		
+		for (int i = 0; i < planesBD.size(); i++) {
+			Airplane plane = planesBD.get(i);
+			String nombre, phone, destino, origen;
+			int idAirplane, seats;
+			Timestamp takeoff, arrive;
+			double price;
+			
+			// int
+			idAirplane = plane.getAirplaneID();
+			seats = plane.getSeats();
+			
+			// string
+			nombre = plane.getName_pilot();
+			phone = plane.getPhone_Pilot();
+			destino = plane.getDestination();
+			origen = plane.getOrigin();
+	
+			
+			// Timestamp
+			takeoff = plane.getTakeoff_hr();
+			arrive = plane.getArrive_hr();
+			
+			//double
+			price = prices.UFtoPesos(plane.getPrice());
+			
+			System.out.println("ID Avion: "+ idAirplane);
+			System.out.println("Piloto:\tNombre: " + nombre + "\t Telefono: " + phone);
+			System.out.println("Asientos: "+ seats);
+			
+			System.out.print("Pasajeros: ");
+			
+			boolean havePassenger = false;
+			for (int k = 0; k < usersBD.size(); k++) {
+				User passenger = usersBD.get(k);
+				
+				if(idAirplane == passenger.getIdPlane()) {
+					havePassenger = true;
+					break;
+				}
+			}
+			
+			
+			
 			
 			if (!havePassenger) {
 				System.out.println("No tiene ningun pasajero asignado.");
@@ -126,13 +216,13 @@ public class Display {
 			System.out.println("Origen: "+ origen + "\t Salida: " + takeoff);
 			System.out.println("Destino: "+ destino + "\t Llegada: " + arrive);
 			
+			
+			System.out.println("Precio: "+ price + " CLP");
+			
 			System.out.println("*******************************************");
 		}
-	}
+
 	
-	public static void airplanesCLP(ArrayList<Airplane> planesBD, ArrayList<User> usersBD, 
-									PriceFlight prices) {
-		// Falta implementar
-	}
-	
+}
+
 }
