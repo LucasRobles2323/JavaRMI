@@ -37,33 +37,30 @@ public class EditData {
 	    System.out.println("Seleccione un usuario por ID:");
 	    int userId = Integer.parseInt(br.readLine());
 	    
-	   
 	    return userId;
 	}
 	
 	public static User updateUser(User user) throws NumberFormatException, IOException {
 		// Por hacer, debe pedir un id de usuario por terminal.
-		 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-	        System.out.print("Escriba el nombre: ");
-	        String name = br.readLine();
+		System.out.print("Escriba el nombre: ");
+		String name = br.readLine();
 
-	        System.out.print("Escriba la edad: ");
-	        int age = Integer.parseInt(br.readLine());
+		System.out.print("Escriba la edad: ");
+		int age = Integer.parseInt(br.readLine());
 
-	        System.out.print("Escriba el correo electrónico: ");
-	        String email = br.readLine();
+		System.out.print("Escriba el correo electrónico: ");
+		String email = br.readLine();
 	        
-	        return new User(user.getIdUser(), name, age, email, 0);
-		    
-		    
+		return new User(user.getIdUser(), name, age, email, user.getIdPlane());    
 	}
 	
 	public static User updateFlightUser(User user) throws NumberFormatException, IOException {
-		  System.out.print("Escriba el id del Avion: ");
-	        int vuelo = Integer.parseInt(br.readLine());
-	        
-	        user.setIdPlane(vuelo);
+		System.out.print("Escriba el id del Avion: ");
+		int vuelo = Integer.parseInt(br.readLine());
+		
+		user.setIdPlane(vuelo);
 		
 		return user;
 	}

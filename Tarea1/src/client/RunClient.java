@@ -116,29 +116,35 @@ public class RunClient {
 		            	// 5. Mostrar Usuario.
 		            	usuarioIndexAux = EditData.selectUser();
 		            	usuarioAux = cliente.selectUser(usuarioIndexAux);
-		            	if (usuarioIndexAux != 0) {
+		            	if (usuarioAux != null) {
 		            		Display.oneUser(usuarioAux);
 		            	}
 		            	else {
-		            		 System.out.println("El usuario con ID " + usuarioAux + " no existe.");
+		            		 System.out.println("El usuario con ID " + usuarioIndexAux + " no existe.");
 		            	}
 		                break;
 		            case 6:
 		            	// 6. Modificar Usuario.
 		            	usuarioIndexAux = EditData.selectUser();
 		            	usuarioAux = cliente.selectUser(usuarioIndexAux);
+		            	if (usuarioAux == null){
+		            		break;
+		            	}
 		            	usuarioAux = EditData.updateUser(usuarioAux);
 		            	cliente.updateUser(usuarioAux);
 		                break;
 		            case 7:
-		            	// 5. Inscribir en Vuelo a Usuario.
+		            	// 7. Inscribir en Vuelo a Usuario.
 		            	usuarioIndexAux = EditData.selectUser();
 		            	usuarioAux = cliente.selectUser(usuarioIndexAux);
+		            	if (usuarioAux == null){
+		            		break;
+		            	}
 		            	usuarioAux = EditData.updateFlightUser(usuarioAux);
 		            	cliente.updateUser(usuarioAux);
 		                break;
 		            case 8:
-		            	// 5. Mostrar Usuario.
+		            	// 8. Eliminar Usuario.
 		            	usuarioIndexAux = EditData.selectUser();
 		            	cliente.deleteUser(usuarioIndexAux);
 		                break;
@@ -151,8 +157,10 @@ public class RunClient {
 		                break;
 	            }
 	            }catch(Exception e){
+	            	Display.clearConsole();
 	            	System.out.println("Problema con el servidor.");
 	            	System.out.println("Reiniciando el servidor.");
+	            	System.out.println("");
 	            	cliente = new Client();
 	            }
 	            

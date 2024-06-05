@@ -19,6 +19,7 @@ public class Display {
 	public static void clearConsole() throws InterruptedException {
 		stopSeconds(3000);
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	}
 	
 	public static void noImplement() throws InterruptedException {

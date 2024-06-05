@@ -131,6 +131,7 @@ public class ServerImpl implements InterfazDeServer {
 		while(true) {
 			if(requestMutex()) {
 				System.out.println("¡Permiso Obtenido!");
+				System.out.println("");
 				break;
 			}
 			try {
@@ -138,7 +139,7 @@ public class ServerImpl implements InterfazDeServer {
 		    }catch(InterruptedException e){
 		    	e.printStackTrace();
 		    }
-			System.out.println("Esperando permiso para iniciar la sección critica..");
+			System.out.println("Esperando permiso para iniciar la sección critica insert...");
 		}
 		
 	    Connection connection = null;
@@ -188,10 +189,12 @@ public class ServerImpl implements InterfazDeServer {
 	        else {
 	        	System.out.println("Ya existe en la BD el id Usuario: " + userNew.getIdUser());
 	        }
+	        System.out.println("");
 	        e.printStackTrace();
 	    }
 	    
 	    System.out.println("Iniciando inserción. Tiempo estimado, "+ durationSleep);
+	    System.out.println("");
 	    
 	    try {
 	    	Thread.sleep(durationSleep);
@@ -207,6 +210,7 @@ public class ServerImpl implements InterfazDeServer {
         else {
         	System.out.println("Ya existe en la BD el id Usuario: " + userNew.getIdUser());
         }
+	    System.out.println("");
 	    
 	    try {
 	    	connection.close();
@@ -221,6 +225,7 @@ public class ServerImpl implements InterfazDeServer {
 		while(true) {
 			if(requestMutex()) {
 				System.out.println("¡Permiso Obtenido!");
+				System.out.println("");
 				break;
 			}
 			try {
@@ -228,7 +233,7 @@ public class ServerImpl implements InterfazDeServer {
 			}catch(InterruptedException e){
 				e.printStackTrace();
 			}
-			System.out.println("Esperando permiso para iniciar la sección critica..");
+			System.out.println("Esperando permiso para iniciar la sección critica update...");
 		}
 
 	    Connection connection = null;
@@ -280,10 +285,12 @@ public class ServerImpl implements InterfazDeServer {
 	    	else {
 	    		System.out.println("No se pudo actualizar el usuario " + updatedUser.getName());
 	    	}
+	    	System.out.println("");
 	        e.printStackTrace();
 	    }
 	    
 	    System.out.println("Iniciando actualización de usuario. Tiempo estimado, "+ durationSleep);
+	    System.out.println("");
 	    
 	    try {
 	    	Thread.sleep(durationSleep);
@@ -299,6 +306,7 @@ public class ServerImpl implements InterfazDeServer {
 	    else {
 	    	System.out.println("Actualizado correctamente usuario " + updatedUser.getName());
 	    }
+	    System.out.println("");
 	    
 	    try {
 	    	connection.close();
@@ -313,6 +321,7 @@ public class ServerImpl implements InterfazDeServer {
 		while(true) {
 			if(requestMutex()) {
 				System.out.println("¡Permiso Obtenido!");
+				System.out.println("");
 				break;
 			}
 			try {
@@ -320,7 +329,7 @@ public class ServerImpl implements InterfazDeServer {
 			}catch(InterruptedException e){
 				e.printStackTrace();
 			}
-			System.out.println("Esperando permiso para iniciar la sección critica..");
+			System.out.println("Esperando permiso para iniciar la sección critica select...");
 		}
 		
 		Connection connection = null;
@@ -351,10 +360,12 @@ public class ServerImpl implements InterfazDeServer {
 	        
 		}  catch (SQLException e) {
 	    	System.out.println("No se pudo encontrar el usuario con id " + idUser);
-	        e.printStackTrace();
+	    	System.out.println("");
+	    	e.printStackTrace();
 	    }
 	    
 	    System.out.println("Iniciando select. Tiempo estimado, "+ durationSleep);
+	    System.out.println("");
 	    
 	    try {
 	    	Thread.sleep(durationSleep);
@@ -364,7 +375,13 @@ public class ServerImpl implements InterfazDeServer {
 	    
 	    // Terminando seccion critica, liberando mutex.
 	    releaseMutex();
-	    System.out.println("Seleccionado correctamente usuario " + selectedUser.getName());
+	    if (selectedUser != null) {
+	        System.out.println("Seleccionado correctamente usuario " + selectedUser.getName());
+	    }
+	    else {
+	    	System.out.println("No se pudo encontrar el usuario con ID " + idUser);
+	    }
+	    System.out.println("");
 	    
 	    try {
 	    	connection.close();
@@ -380,6 +397,7 @@ public class ServerImpl implements InterfazDeServer {
 		while(true) {
 			if(requestMutex()) {
 				System.out.println("¡Permiso Obtenido!");
+				System.out.println("");
 				break;
 			}
 			try {
@@ -387,7 +405,7 @@ public class ServerImpl implements InterfazDeServer {
 			}catch(InterruptedException e){
 				e.printStackTrace();
 			}
-			System.out.println("Esperando permiso para iniciar la sección critica..");
+			System.out.println("Esperando permiso para iniciar la sección critica delete...");
 		}
 		
 		Connection connection = null;
@@ -407,7 +425,8 @@ public class ServerImpl implements InterfazDeServer {
 			
 		}  catch (SQLException e) {
 	    	System.out.println("No se pudo eliminar el usuario con id " + idUser);
-	        e.printStackTrace();
+	    	System.out.println("");
+	    	e.printStackTrace();
 	    }
 	    
 	    System.out.println("Iniciando delete. Tiempo estimado, "+ durationSleep);
@@ -421,6 +440,7 @@ public class ServerImpl implements InterfazDeServer {
 	    // Terminando seccion critica, liberando mutex.
 	    releaseMutex();
 	    System.out.println("Eliminado correctamente usuario " + idUser);
+	    System.out.println("");
 	    
 	    try {
 	    	connection.close();
